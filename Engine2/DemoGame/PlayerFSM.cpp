@@ -5,6 +5,8 @@
 #include "../D2DEngine/Animation.h"
 #include "../D2DEngine/Movement.h"
 #include "../D2DEngine/InputSystem.h"
+
+
 //#include "../D2DEngine/Transform.h"
 //0번 idle
 //1번 run?
@@ -22,6 +24,7 @@
 PlayerFSM::PlayerFSM(FiniteStateMachine* pOwner, std::string Name) : FSMState(pOwner, Name)
 {
 	ani = m_pOwner->m_pOwner->GetComponent<Animation>();
+	move = m_pOwner->m_pOwner->GetComponent<Movement>();
 }
 
 PlayerFSM::~PlayerFSM()
@@ -66,10 +69,12 @@ void PlayerHit::ExitState()
 
 void PlayerRun::EnterState()
 {
+	ani->SetAnimation(1, move->GetDirection().x > 0 ? false : true);
 }
 
 void PlayerRun::Update(float DeltaTime)
 {
+	ani->SetMirror(move->GetDirection().x > 0 ? false : true); //멤버접근보다  getter쓰자
 	if (!inputSystem->isKey(VK_LEFT) && !inputSystem->isKey(VK_RIGHT))
 	{
 		m_pOwner->SetNextState("Idle");
@@ -78,12 +83,11 @@ void PlayerRun::Update(float DeltaTime)
 
 void PlayerRun::ExitState()
 {
-	m_pOwner->m_pOwner->GetComponent<Movement>()->SetDirection({ 0,0 });
 }
 
 void PlayerDie::EnterState()
 {
-	ani->SetAnimation(7, false); 
+	ani->SetAnimation(7, move->GetDirection().x > 0 ? false : true);
 }
 
 void PlayerDie::Update(float DeltaTime)
@@ -102,26 +106,26 @@ void PlayerDie::ExitState()
 //이거 할려면 애니메이션부터 준비가 되어야함.. 
 void PlayerIdle::EnterState()
 {
-	ani->SetAnimation(0, false); //맞는상태로 전환..
+	ani->SetAnimation(0, move->GetDirection().x > 0 ? false : true);
 }
 
 void PlayerIdle::Update(float DeltaTime)
 {
-	if (inputSystem->isKeyDown(VK_SPACE))
+	Movement* move = m_pOwner->m_pOwner->GetComponent<Movement>();
+
+	if (move->GetDirection() != MathHelper::Vector2F(0,0)) //지금 스피드는 한상 존재하고 방향만으로 판별하고있었네.. 
 	{
-		//m_pOwner->SetNextState("Jump"); //일단 구현하지마
-	}
-	else if (inputSystem->isKeyDown(VK_LEFT))
-	{
-		m_pOwner->SetNextState("Run");	
-		ani->SetAnimation(1, true); // 엔터에서 처리하고 싶은데..  매개변수가 안들어가서.. 흠.. 
-		m_pOwner->m_pOwner->GetComponent<Movement>()->SetDirection({-1,0}); 
-	}
-	else if(inputSystem->isKeyDown(VK_RIGHT))
-	{
-		m_pOwner->SetNextState("Run");
-		ani->SetAnimation(1, false);
-		m_pOwner->m_pOwner->GetComponent<Movement>()->SetDirection({ 1,0 });
+		//속도로 이동중인 아닌지 판단할수있고.. 
+		// y 디렉션의 값으로 점프중인지 아닌지 판단가능
+		if (move->GetDirection().y != 0) //플롯이니까 0 으로 하면 안될수도?
+		{
+			m_pOwner->SetNextState("Jump");
+		}
+		else
+		{
+			m_pOwner->SetNextState("Run");
+			
+		}	
 	}
 	else if (inputSystem->isKeyDown('A'))
 	{
@@ -135,8 +139,8 @@ void PlayerIdle::ExitState()
 
 void PlayerJump::EnterState()
 {
-	m_pOwner->m_pOwner->GetComponent<Movement>()->SetDirection({ 0,1 });
-} //상태의 중복이 안되니까 오른쪽 위로 날라가는 그런건 안되겠네? 이건 문제네.. 
+	ani->SetAnimation(2, move->GetDirection().x > 0 ? false : true);
+} 
 
 void PlayerJump::Update(float DeltaTime)
 {
@@ -150,5 +154,5 @@ void PlayerJump::Update(float DeltaTime)
 
 void PlayerJump::ExitState() //리지드 바디에 의해서 떨어질거고..무브먼트와 리지드바디에 의한 이동은다르게 처리되는거고.. 
 {
-	m_pOwner->m_pOwner->GetComponent<Movement>()->SetDirection({ 0,0 });
+
 }

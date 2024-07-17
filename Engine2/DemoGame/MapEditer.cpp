@@ -28,7 +28,7 @@ void MapEditer::Update(float deltaTime)
     D2D1_VECTOR_2F curPos = { inputSystem->GetMouseState()._x,inputSystem->GetMouseState()._y };
 	if (inputSystem->GetMouseButtonDown(0)) //눌릴때 좌표기억하고
 	{
-		startPoint = curPos;
+		startPoint = curPos; //카메라 움직이는걸뺄까? 
 		return;
 	}
 	if (inputSystem->GetMouseButton(0)) //누르고있으 현재 좌표로 박스 계산

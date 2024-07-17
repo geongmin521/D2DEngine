@@ -100,6 +100,11 @@ namespace MathHelper
 			return (this->x == vector.x && this->y == vector.y);
 		}
 
+		bool operator!=(const Vector2F& vector) const
+		{
+			return (this->x != vector.x || this->y != vector.y);
+		}
+
 		float Length() const
 		{
 			return sqrtf(this->x * this->x + this->y * this->y);

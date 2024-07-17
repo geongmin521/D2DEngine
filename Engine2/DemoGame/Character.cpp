@@ -40,6 +40,21 @@ Character::~Character()
 void Character::Update(float deltaTime) //자이제 aabb를 본인 사이즈로 처리하리수잇게 만들어야하고.. 
 {
 	__super::Update(deltaTime);//부모의 업데이트를 한번 호출해야겠지?
+	float MoveX = 0;
+	float MoveY = 0;
+	if (inputSystem->isKey(VK_RIGHT)) 
+	{
+		MoveX = 1;
+	}
+	if (inputSystem->isKey(VK_LEFT)) //상태에 재진입을안하는구나
+	{
+		MoveX = -1;	
+	}
+	if (inputSystem->isKey(VK_SPACE))
+	{
+		MoveY = 1;
+	}
+	GetComponent<Movement>()->SetDirection({ MoveX, MoveY });
 }
 
 void Character::Render(ID2D1HwndRenderTarget* pRenderTarget)

@@ -2,12 +2,14 @@
 #include "GameObject.h"
 class AABB;
 class GameObject;
+class Collider;
 class World
 {
 public:
 	World();
 	virtual ~World();	
 	std::list<GameObject*> m_GameObjects;
+	std::vector<Collider*> m_Colliders; //이것도 겹칠필요없으니까 set으로 이것도좀더 공부해야하긴해야하는데.. 
 	AABB* m_pCullingBound = nullptr; 
 	AABB* m_CullingBoundDefault;	
 public:	
@@ -15,6 +17,7 @@ public:
 	void Render(ID2D1HwndRenderTarget* pRenderTarget);
 	void Clear();
 	void SetCullingBound(AABB* pBound) { m_pCullingBound = pBound; }
+	void CollisionCheck();
 	// 템플릿 함수로 GameObject를 생성한다.
 	template<typename T>
 	T* CreateGameObject()
