@@ -243,4 +243,17 @@ namespace MathHelper
 		}
 
 	};
+
+	template<typename T>
+	void Clamp(T& value, T high, T low)
+	{
+		if ( value > high)
+		{
+			value = high;
+		}
+		else if(value < low)
+		{
+			value = low;
+		}			
+	}
 }

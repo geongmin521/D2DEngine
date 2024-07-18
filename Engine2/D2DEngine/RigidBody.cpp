@@ -18,7 +18,7 @@ RigidBody::~RigidBody()
 void RigidBody::Update(float deltaTime)
 {
 	if (isGravity) //절대 좌표계에서 움직이는게 맞지않을까?
-		tr->m_WorldTransform.dy += GravityScale; //밑으로떨어지려면.. + 지?
+		tr->m_RelativeLocation.y += GravityScale; //밑으로떨어지려면.. + 지?
 }
 
 void RigidBody::Render(ID2D1RenderTarget* pRenderTarget, D2D1_MATRIX_3X2_F transform)

@@ -14,7 +14,7 @@ public:
 	
 	void SetOwner(GameObject* pOwner) { m_pOwner = pOwner; }
 
-	virtual void Update(float deltaTime) = 0; //모든 컴포넌트를 이걸 구현해야할까? 렌더는 구현안할수도있어도 업데이트도 없을거면 왜있음?
+	virtual void Update(float deltaTime);
 	virtual void Render(ID2D1RenderTarget* pRenderTarget);
 };
 

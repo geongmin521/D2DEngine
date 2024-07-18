@@ -1,8 +1,10 @@
 #pragma once
 #include "GameObject.h"
+
 class AABB;
-class GameObject;
+//class GameObject;
 class Collider;
+class BoxCollider;
 class World
 {
 public:
@@ -18,7 +20,8 @@ public:
 	void Clear();
 	void SetCullingBound(AABB* pBound) { m_pCullingBound = pBound; }
 	void CollisionCheck();
-	// 템플릿 함수로 GameObject를 생성한다.
+
+	// 템플릿 함수로 GameObject를 생성한다. 템플릿때문이였나? 
 	template<typename T>
 	T* CreateGameObject()
 	{
@@ -26,6 +29,7 @@ public:
 		assert(bIsBase == true);
 		T* newObject = new T();
 		newObject->SetOwner(this);
+		
 		for (auto it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
 		{
 			if ((*it)->renderOrder > newObject->renderOrder)
@@ -36,11 +40,11 @@ public:
 		}
 
 		m_GameObjects.push_back(newObject); //나머지 상황에 대해서는 뒤에 넣기
-		
+
 		return newObject;
 	}
 
-	void DeleteGAmeObject(GameObject* gameObject)
+	void DeleteGameObject(GameObject* gameObject)
 	{
 		GameObject* del = gameObject; //음 지우기전에 담고있다가 지워야할듯?
 		m_GameObjects.erase(remove(m_GameObjects.begin(), m_GameObjects.end(), gameObject), m_GameObjects.end());

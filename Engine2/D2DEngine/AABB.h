@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Collider.h" //이러면 안꼬일까? 무섭네.. 헤더파일 인클루드
 /*
 	AABB (Axis-Aligned Bounding Box) 축 정렬된 경계 상자
 
@@ -35,10 +35,10 @@ public:
 
 	void SetCenter(float x, float y) { m_Center = { x, y }; }
 	void SetExtent(float x, float y) { m_Extent = { x, y }; }
-	float GetMinX() { return m_Center.x - m_Extent.x; }
-	float GetMaxX() { return m_Center.x + m_Extent.x; }
-	float GetMinY() { return m_Center.y - m_Extent.y; }
-	float GetMaxY() { return m_Center.y + m_Extent.y; }
+	float GetMinX() const { return m_Center.x - m_Extent.x; }
+	float GetMaxX() const { return m_Center.x + m_Extent.x; }
+	float GetMinY() const { return m_Center.y - m_Extent.y; }
+	float GetMaxY() const { return m_Center.y + m_Extent.y; }
 
 	bool CheckIntersect(const AABB& other) const
 	{
@@ -83,6 +83,45 @@ public:
 		{
 			return false;
 		}
+	}
+
+	void CheckCollisionInfo(const AABB& other, CollisionInfo& info) const //충돌을 감지한 변을 가져오기
+	{
+		// self min,max
+		D2D1_VECTOR_2F top_right =		{ m_Center.x + m_Extent.x,m_Center.y - m_Extent.y };
+		D2D1_VECTOR_2F top_left =		{ m_Center.x - m_Extent.x,m_Center.y - m_Extent.y };
+		D2D1_VECTOR_2F bottom_right =	{ m_Center.x + m_Extent.x,m_Center.y + m_Extent.y };
+		D2D1_VECTOR_2F bottom_left =	{ m_Center.x - m_Extent.x,m_Center.y + m_Extent.y };
+
+		bool Btop_right = other.CheckPoint(top_right); //사각형의 각꼭짓점이 충돌체의 어디에 들어가는지 확인하고 충돌한 방향확인
+		bool Btop_left = other.CheckPoint(top_left);
+		bool Bbottom_right = other.CheckPoint(bottom_right);
+		bool Bbottom_left = other.CheckPoint(bottom_left);
+
+		float depth;
+		CollisionDir dir;
+		if (Btop_right && Btop_left)
+		{
+			depth = other.GetMinY() - GetMaxY();
+			dir = CollisionDir::Top;
+		}
+		else if (Btop_right && Bbottom_right)
+		{
+			depth = other.GetMaxX() - GetMinX();
+			dir = CollisionDir::Right;
+		}
+		else if (Bbottom_left && Btop_left)
+		{
+			depth = other.GetMinX() - GetMaxX();
+			dir = CollisionDir::Left;
+		}
+		else  //바텀충돌이 제일많을텐데 이걸 위로 올리는게 연산량이 줄어들텐데.. 
+		{
+			depth = other.GetMaxY() - GetMinY();
+			dir = CollisionDir::Bottom;		
+		}
+		info.depth = depth;
+		info.dir = dir;
 	}
 };
 

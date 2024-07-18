@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Animation.h"
 #include "Collider.h"
+#include "BoxCollider.h"
 
 
 World::World()
@@ -25,18 +26,18 @@ World::~World()
 
 void World::Update(float deltaTime)
 {
-	for (auto& obj : m_GameObjects) //필요한 오브젝트는 처음 월드에서 생성해줘야지.. 
+	for (auto& obj : m_GameObjects)
 	{
 		obj->Update(deltaTime);
 	}
 	
-	CollisionCheck();
-	
+	CollisionCheck(); //따로 돌리는게 맞지않나?  그렇게 되면 콜라이더는 컴포넌트에 넣는게 아니고? 
+	//뭔가 이상한데 콜라이더는 컴포넌트로 넣고싶은데.. 흠.. 
 }
 
 void World::Render(ID2D1HwndRenderTarget* pRenderTarget)
 {
-	for (auto& obj : m_GameObjects) //카메라는 월드의 바운드 박스를 들고있어야하고...
+	for (auto& obj : m_GameObjects) 
 	{		
 		if (this->m_pCullingBound->CheckIntersect(obj->GetBoundBox())) 
 		{
@@ -52,7 +53,15 @@ void World::Clear()
 
 void World::CollisionCheck()
 {
-	
+	for (auto& obj : m_GameObjects)
+	{
+		BoxCollider* col = obj->GetComponent<BoxCollider>();
+		if (col)
+		{
+			m_Colliders.push_back(col);
+		}
+	}
+
 	for (int source = 0; source < m_Colliders.size(); source++)
 	{
 		for (int target = source; target < m_Colliders.size(); target++)
@@ -62,9 +71,8 @@ void World::CollisionCheck()
 			if (m_Colliders[source]->GetCollisionType() == CollisionType::Block &&
 				m_Colliders[target]->GetCollisionType() == CollisionType::Block)
 			{
-				//충돌처리
-				m_Colliders[source]->ProcessBlock(m_Colliders[target]);
-				m_Colliders[target]->ProcessBlock(m_Colliders[source]);
+				m_Colliders[source]->ProcessBlock(m_Colliders[target]); //움직이지 않는 콜라이더는 또 어떻게 구분하지? 
+				m_Colliders[target]->ProcessBlock(m_Colliders[source]); //남들이 유니티랑 비슷한 구조로 짠다는거는 구조를 보고 예측해봤다는건가? 
 			}
 			else
 			{
@@ -74,7 +82,3 @@ void World::CollisionCheck()
 		}
 	}
 }
-
-
-
-//set은 내부적으로 어떻게구현되어있을려나..

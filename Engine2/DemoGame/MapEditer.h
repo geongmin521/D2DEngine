@@ -2,8 +2,6 @@
 
 #include "../D2DEngine/GameObject.h" //그래 이거 없으면 상속 못받는걸로 알고있는데.. 
 
-//#include "../D2DEngine/AABB.h"
-
 class MapEditer : public GameObject //뭐야 너 상속받는데 어떻게 알고있냐?
 {
 private:

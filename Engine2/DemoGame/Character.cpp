@@ -6,6 +6,7 @@
 #include "../D2DEngine/FiniteStateMachine.h"
 #include "../D2DEngine/Movement.h"
 #include "../D2DEngine/InputSystem.h"
+#include "../D2DEngine/BoxCollider.h"
 #include "PlayerFSM.h"
 
 Character::Character()
@@ -14,6 +15,7 @@ Character::Character()
 	speed = 10;
 	AddComponent(new Animation(L"..\\Data\\spider.png", L"SpiderMan"));
 	AddComponent(new RigidBody(m_Transform)); 
+	AddComponent(new BoxCollider(m_BoundBox));
 
 	AddComponent(new Movement(m_Transform , 200)); //이제 방향만 지정해주면되겠네..
 	FiniteStateMachine* fsm = new FiniteStateMachine();
