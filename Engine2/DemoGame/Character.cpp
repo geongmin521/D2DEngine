@@ -6,6 +6,8 @@
 #include "../D2DEngine/FiniteStateMachine.h"
 #include "../D2DEngine/Movement.h"
 #include "../D2DEngine/InputSystem.h"
+#include "../D2DEngine/D2DRenderer.h"
+#include "../D2DEngine/AABB.h"
 #include "../D2DEngine/BoxCollider.h"
 #include "PlayerFSM.h"
 
@@ -15,7 +17,7 @@ Character::Character()
 	speed = 10;
 	AddComponent(new Animation(L"..\\Data\\spider.png", L"SpiderMan"));
 	AddComponent(new RigidBody(m_Transform)); 
-	AddComponent(new BoxCollider(m_BoundBox));
+	AddComponent(new BoxCollider(m_BoundBox, CollisionType::Block,this)); //m_BoundBox 이것도 애니메이션에서 바꿔주는거아니였나
 
 	AddComponent(new Movement(m_Transform , 200)); //이제 방향만 지정해주면되겠네..
 	FiniteStateMachine* fsm = new FiniteStateMachine();
@@ -62,4 +64,19 @@ void Character::Update(float deltaTime) //자이제 aabb를 본인 사이즈로 처리하리수
 void Character::Render(ID2D1HwndRenderTarget* pRenderTarget)
 {
 	__super::Render(pRenderTarget);
+
+	D2DRenderer::GetInstance()->DrawAABB(*m_BoundBox); //얘 박스가 왜 저기있을까? 아 박스도 화면중앙에 올수있게 해줘야하는구나.. 
+}
+
+void Character::OnBlock(Collider* pOwnedComponent, Collider* pOtherComponent) //이건 각오브젝트인 각 객체에서 실행하는거아닌가? 
+{
+	GetComponent<Movement>()->PrevPosition(); //오케이 불러오는건됬고 이제 좌우움직임은 가능하게 하고 위아래 움직임만 무시하면된다.. 
+}
+
+void Character::OnBeginOverlap(Collider* pOwnedComponent, Collider* pOtherComponent)
+{
+}
+
+void Character::OnEndOverlap(Collider* pOwnedComponent, Collider* pOtherComponent)
+{
 }

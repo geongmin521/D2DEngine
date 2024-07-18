@@ -58,8 +58,6 @@ void Animation::Update(float fTimeElapsed)	//모든 컴포넌트에 안에 구현방식이있을
 		}
 	}
 
-
-
 	m_SrcRect = Frame.Source;
 	m_DstRect = { 0,0,m_SrcRect.right - m_SrcRect.left,m_SrcRect.bottom - m_SrcRect.top };
 
@@ -76,7 +74,7 @@ void Animation::Render(ID2D1RenderTarget* pRenderTarget) //렌더를 하나로 묶어놓�
 		return;
 	__super::Render(pRenderTarget);
 	
-	pRenderTarget->DrawBitmap(m_pBitmap, m_DstRect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, m_SrcRect);
+	pRenderTarget->DrawBitmap(m_pBitmap, m_DstRect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, m_SrcRect); //그릴때만 옮겨주는게 아니라 애초에 시작위치의 포지션을 그렇게 옮겨야하는거아닌가? 
 	pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 

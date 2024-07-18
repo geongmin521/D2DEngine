@@ -8,17 +8,12 @@ Movement::Movement(Transform* target, float Speed) : m_Speed(Speed)
 }
 
 // 가속도 개념없이 일정한 속도로 이동한다.
-void Movement::Update(float DeltaTime)
+void Movement::Update(float DeltaTime) //오케이 리지드 바디 쓸일이있을까? 그냥 무브먼트에 넣어놓는게어떰.. 
 {
-	if (isBlock[0])//위쪽 막힘 
-		MathHelper::Clamp<float>(m_Direction.y, 0, -1);
-	if (isBlock[1])//아래쪽
-		MathHelper::Clamp<float>(m_Direction.y, 1, 0);
-	if (isBlock[2])//왼쪽
-		MathHelper::Clamp<float>(m_Direction.x, 1, 0);
-	if (isBlock[3])//오른쪽
-		MathHelper::Clamp<float>(m_Direction.x,-1, 0);
+	m_PrevRelativeLocation = transform->m_RelativeLocation;
 
+	//if (isGravity) //절대 좌표계에서 움직이는게 맞지않을까?
+	//transform->m_RelativeLocation.y += 9.8; //밑으로떨어지려면.. + 지?
 	// 현재 위치를 가져온다.
 	MathHelper::Vector2F Location = transform->GetRelativeLocation();
 	m_Velocity = m_Direction * m_Speed;
@@ -26,8 +21,15 @@ void Movement::Update(float DeltaTime)
 	// 새로운 위치를 계산한다.
 	Location += m_Velocity * DeltaTime;
 
+	//중력에 의한 위치
+	Location += MathHelper::Vector2F(0, 1) * 98.0f * DeltaTime * 3; //센터랑하나?
 	//새로 계산된 위치를 적용한다.
 	transform->SetRelativeLocation(Location);
+}
+
+void Movement::PrevPosition()
+{
+	 transform->m_RelativeLocation.y = m_PrevRelativeLocation.y; //콜라이더좀 다들 그려야겠네.. 
 }
 
 void Movement::SetDirection(const MathHelper::Vector2F& Direction)

@@ -13,7 +13,7 @@ Map::Map()
 	D2D1_SIZE_F size = GetComponent<Bitmap>()->m_pBitmap->GetSize();
 	SetBoundBox(0, 0, size.width, size.height);
 	m_Transform->m_RelativeScale = { 3,2.4 };
-	LoadCollider();
+	LoadCollider(); //월드의 콜라이더에 넣어줘야하는데.. 이것도 나중에는 이벤트 시스템으로빼자...
 }
 
 Map::~Map()
@@ -53,7 +53,19 @@ bool Map::LoadCollider() //맵에디터와 겹치는거같지만 다른점은 그냥편집을 위한 aa
 			getline(wss, token, L',');
 			col->m_Extent.y = (float)_wtoi(token.c_str());
 		}
-		boxCols.push_back(new BoxCollider(col)); //오 뭔가 잘되는거같은데?
+		boxCols.push_back(new BoxCollider(col, CollisionType::Block,this)); //오 뭔가 잘되는거같은데?
 	}
 	return true;
+}
+
+void Map::OnBlock(Collider* pOwnedComponent, Collider* pOtherComponent)
+{
+}
+
+void Map::OnBeginOverlap(Collider* pOwnedComponent, Collider* pOtherComponent)
+{
+}
+
+void Map::OnEndOverlap(Collider* pOwnedComponent, Collider* pOtherComponent)
+{
 }

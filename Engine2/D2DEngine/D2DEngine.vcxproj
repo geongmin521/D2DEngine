@@ -154,6 +154,7 @@
     <ClInclude Include="FSMState.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Helper.h" />
+    <ClInclude Include="IColliderNotify.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="Movement.h" />

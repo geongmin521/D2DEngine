@@ -2,6 +2,7 @@
 #include "D2DRenderer.h"
 #include "Helper.h"
 #include "ResourceManager.h"
+#include "AABB.h"
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "DXGI.lib")
 #pragma comment(lib, "Dwrite.lib")
@@ -159,4 +160,10 @@ void D2DRenderer::DrawBox(int left, int top, int right, int bottom)
 {
 	m_pRenderTarget->DrawRectangle(
 		D2D1::RectF(left, top, right, bottom), g_pBlackBrush);
+}
+
+void D2DRenderer::DrawAABB(AABB aabb)
+{
+	m_pRenderTarget->DrawRectangle(
+		D2D1::RectF(aabb.GetMinX(), aabb.GetMinY(), aabb.GetMaxX(), aabb.GetMaxY()), g_pBlackBrush);
 }

@@ -1,13 +1,17 @@
 #pragma once
 #include "../D2DEngine/GameObject.h"
+#include "../D2DEngine/IColliderNotify.h"
 
-class BoxCollider;
-class Map : public GameObject
+class Collider;
+class Map : public GameObject , public IColliderNotify
 {
 public:
 	Map();
 	~Map(); //¿œ¥‹¿∫ 
 	bool LoadCollider();
-	std::vector<BoxCollider*> boxCols;
+	virtual void OnBlock(Collider* pOwnedComponent, Collider* pOtherComponent) override;
+	virtual void OnBeginOverlap(Collider* pOwnedComponent, Collider* pOtherComponent) override;
+	virtual void OnEndOverlap(Collider* pOwnedComponent, Collider* pOtherComponent) override;
+	std::vector<Collider*> boxCols;
 };
 
