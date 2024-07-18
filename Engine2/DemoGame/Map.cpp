@@ -13,13 +13,14 @@ Map::Map()
 	D2D1_SIZE_F size = GetComponent<Bitmap>()->m_pBitmap->GetSize();
 	SetBoundBox(0, 0, size.width, size.height);
 	m_Transform->m_RelativeScale = { 3,2.4 };
+	LoadCollider();
 }
 
 Map::~Map()
 {
 }
 
-bool Map::LoadCollider() //겹치는거같지만 다른점은 그냥편집을 위한 aabb와 boxcollider 생성에 있다. 
+bool Map::LoadCollider() //맵에디터와 겹치는거같지만 다른점은 그냥편집을 위한 aabb와 boxcollider 생성에 있다. 
 {
 	std::wifstream file(L"..\\Data\\MapCollider.csv"); //읽기
 	if (!file.is_open()) {
