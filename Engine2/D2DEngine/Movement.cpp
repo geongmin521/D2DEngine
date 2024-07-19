@@ -27,9 +27,12 @@ void Movement::Update(float DeltaTime) //오케이 리지드 바디 쓸일이있을까? 그냥 �
 	transform->SetRelativeLocation(Location);
 }
 
-void Movement::PrevPosition()
+void Movement::PrevPosition()// aabb는 4방향으로 충돌이 가능하단 말이여.. 
 {
-	 transform->m_RelativeLocation.y = m_PrevRelativeLocation.y; //콜라이더좀 다들 그려야겠네.. 
+	//y가 이전위치로 갈때랑 x가 이전위치로 갈때랑 다양하게 있을수있을텐데.. 그것들을어떻게 구분해야할까.. 
+	//y를 위로 가고... 
+	// transform->m_RelativeLocation.y = m_PrevRelativeLocation.y; //콜라이더좀 다들 그려야겠네.. 
+	 transform->m_RelativeLocation = m_PrevRelativeLocation; 
 }
 
 void Movement::SetDirection(const MathHelper::Vector2F& Direction)

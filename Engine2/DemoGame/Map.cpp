@@ -13,6 +13,7 @@ Map::Map()
 	D2D1_SIZE_F size = GetComponent<Bitmap>()->m_pBitmap->GetSize();
 	SetBoundBox(0, 0, size.width, size.height);
 	m_Transform->m_RelativeScale = { 3,2.4 };
+	m_Transform->m_RelativeLocation = { WinHalfSizeX, WinHalfSizeY };
 	LoadCollider(); //월드의 콜라이더에 넣어줘야하는데.. 이것도 나중에는 이벤트 시스템으로빼자...
 }
 

@@ -34,6 +34,7 @@ Character::Character()
 	//플레이어의 fsm 컴포넌트를 넣어주고.. 
 	renderOrder = 100; 
 	m_Transform->m_RelativeScale = { 3,3 };
+	m_Transform->m_RelativeLocation = { WinHalfSizeX, WinHalfSizeY };//카메라때매 실제 월드 포즈랑 렌더링 포즈랑 다른게 문제임... 
 }
 
 Character::~Character()
