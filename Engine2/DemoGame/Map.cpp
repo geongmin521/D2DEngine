@@ -59,14 +59,14 @@ bool Map::LoadCollider() //맵에디터와 겹치는거같지만 다른점은 그냥편집을 위한 aa
 	return true;
 }
 
-void Map::OnBlock(Collider* pOwnedComponent, Collider* pOtherComponent)
+void Map::OnBlock(Collider* pOwnedComponent)
 {
 }
 
-void Map::OnBeginOverlap(Collider* pOwnedComponent, Collider* pOtherComponent)
+void Map::OnBeginOverlap(Collider* pOwnedComponent)
 {
 }
 
-void Map::OnEndOverlap(Collider* pOwnedComponent, Collider* pOtherComponent)
+void Map::OnEndOverlap(Collider* pOwnedComponent)
 {
 }

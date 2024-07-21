@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "MathHelper.h"
 
 class Transform : public Component
 {
@@ -10,9 +11,9 @@ public:
 	Transform();
 	virtual ~Transform();
 	Transform* m_pParentScene = nullptr;		// 부모 Scene 컴포넌트	
-	D2D_VECTOR_2F		m_RelativeScale = { 1,1 };	// 상대 크기
+	MathHelper::Vector2F		m_RelativeScale = { 1,1 };	// 상대 크기
 	float				m_RelativeRotation = 0; // 상대 회전
-	D2D_VECTOR_2F 		m_RelativeLocation = { 0,0 }; // 상대 위치
+	MathHelper::Vector2F 		m_RelativeLocation = { 0,0 }; // 상대 위치 //이것도 매스 헬퍼로 매핑안되나? 
 	D2D_MATRIX_3X2_F	m_RelativeTransform; // 상대 복합 변환
 	
 	D2D_MATRIX_3X2_F	m_WorldTransform;    // 부모까지 반영된 최종 변환
@@ -20,7 +21,7 @@ public:
 	virtual void Update(float deltaTime) override;
 	void SetParent(Transform* pParentScene) { m_pParentScene = pParentScene; }
 
-	D2D1_VECTOR_2F GetWorldLocation()
+	MathHelper::Vector2F GetWorldLocation()
 	{
 		D2D1_VECTOR_2F out;
 		out.x = m_WorldTransform._31;
@@ -32,7 +33,7 @@ public:
 	void AddRelativeRotation(float Rotation);
 	float GetRelativeRotation() { return m_RelativeRotation; }
 
-	void SetRelativeLocation(const D2D1_VECTOR_2F& Location);
+	void SetRelativeLocation(const MathHelper::Vector2F& Location);
 	void AddRelativeLocation(float x, float y);
-	const D2D1_VECTOR_2F& GetRelativeLocation() { return m_RelativeLocation; }
+	const MathHelper::Vector2F& GetRelativeLocation() { return m_RelativeLocation; }
 };

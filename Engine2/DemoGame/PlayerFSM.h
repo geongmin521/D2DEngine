@@ -3,6 +3,7 @@
 
 class Animation;
 class Movement;
+class Character;
 class PlayerFSM : public FSMState
 {
 public:
@@ -10,6 +11,7 @@ public:
 	~PlayerFSM();
 	Animation* ani; 
 	Movement* move;
+	Character* character;
 };
 //공유전이같은 공통적은 부분의 상태전이는 더 위쪽에서 처리하기 
 

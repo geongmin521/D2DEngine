@@ -11,6 +11,7 @@ enum class CollisionType
 /*
 	추상 클래스
 */
+class AABB;
 class Collider
 {
 public:
@@ -21,6 +22,7 @@ protected:
 	CollisionType m_CollisionType;		// 컬리전 타입 (노컬리전,블럭, 오버랩)
 	D2D1_COLOR_F m_Color;				// 그리기용 색상
 	IColliderNotify* notify;
+	bool isBlock[2] = { false,false }; //0 x축 1 y축;
 	std::set<Collider*> m_CollideStateCurr;    // 현재 충돌 상태
 	std::set<Collider*> m_CollideStatePrev;	// 이전 충돌 상태
 public:
@@ -41,5 +43,6 @@ public:
 
 	// Circle,Box 에서 각자 구현해야한다. //박스콜라이더가 이거랑 컴포넌트를 상속받아야할려나? 계속꼬여. 
 	virtual bool IsCollide(Collider* pOtherComponent) = 0;
+	virtual bool IsCollide(AABB* aabb) = 0; //이거만 한나 새로만들자 이거를 템플릿으로 만들고 그것을 특수화하는건 어떰?
 };
 

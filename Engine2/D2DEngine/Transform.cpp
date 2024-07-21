@@ -37,9 +37,10 @@ void Transform::AddRelativeRotation(float Rotation)
 }
 
 
-void Transform::SetRelativeLocation(const D2D1_VECTOR_2F& Location)
+void Transform::SetRelativeLocation(const MathHelper::Vector2F& Location) //누군가 상대좌표를 이동시키면 즉시 월드 좌표에 적용될수있게하기
 {
 	m_RelativeLocation = Location;
+	Update(1);// 델타타입은 의미없음
 }
 
 void Transform::AddRelativeLocation(float x, float y)

@@ -135,6 +135,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapEditer.h" />
+    <ClInclude Include="MissileSpawner.h" />
     <ClInclude Include="Missile.h" />
     <ClInclude Include="MissileFSM.h" />
     <ClInclude Include="PlayerFSM.h" />
@@ -147,6 +148,7 @@
     <ClCompile Include="DemoGameApp.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapEditer.cpp" />
+    <ClCompile Include="MissileSpawner.cpp" />
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="MissileFSM.cpp" />
     <ClCompile Include="PlayerFSM.cpp" />

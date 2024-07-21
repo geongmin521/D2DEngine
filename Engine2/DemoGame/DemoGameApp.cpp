@@ -8,7 +8,8 @@
 #include "Map.h"
 #include "Character.h"
 #include "Camera.h"
-#include "Missile.h"
+//#include "Missile.h"
+#include "MissileSpawner.h"
 
 void DemoGameApp::Initialize(HINSTANCE hInstance, int nShowCmd)
 {
@@ -21,9 +22,8 @@ void DemoGameApp::Initialize(HINSTANCE hInstance, int nShowCmd)
 	}
 	
 	world->CreateGameObject<Camera>();
-
-	world->CreateGameObject<Missile>()->target =
-		world->CreateGameObject<Character>()->m_Transform;
+	world->CreateGameObject<MissileSpawner>()->target =
+	world->CreateGameObject<Character>()->m_Transform;
 } 
 
 void DemoGameApp::Run()

@@ -9,9 +9,9 @@ public:
 	Map();
 	~Map(); //¿œ¥‹¿∫ 
 	bool LoadCollider();
-	virtual void OnBlock(Collider* pOwnedComponent, Collider* pOtherComponent) override;
-	virtual void OnBeginOverlap(Collider* pOwnedComponent, Collider* pOtherComponent) override;
-	virtual void OnEndOverlap(Collider* pOwnedComponent, Collider* pOtherComponent) override;
+	virtual void OnBlock(Collider* pOwnedComponent) override;
+	virtual void OnBeginOverlap(Collider* pOwnedComponent) override;
+	virtual void OnEndOverlap(Collider* pOwnedComponent) override;
 	std::vector<Collider*> boxCols;
 };
 

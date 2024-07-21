@@ -19,4 +19,6 @@
 #include <dxgi1_4.h>
 #include <algorithm>
 #include <set>
+#include <tuple>
+#include <random>
 //#include <dxgi.h>

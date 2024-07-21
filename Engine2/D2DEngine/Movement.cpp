@@ -2,43 +2,39 @@
 #include "Movement.h"
 #include "Transform.h"
 
-Movement::Movement(Transform* target, float Speed) : m_Speed(Speed)
+Movement::Movement(Transform* target, bool isgravity) : isGravity(isgravity)
 {
+	m_Velocity = { 0,0 };
 	transform = target;
 }
 
-// 가속도 개념없이 일정한 속도로 이동한다.
-void Movement::Update(float DeltaTime) //오케이 리지드 바디 쓸일이있을까? 그냥 무브먼트에 넣어놓는게어떰.. 
+
+void Movement::Update(float DeltaTime) //무브먼트가 독립적인 힘여러개가 합쳐지는형식으로 만드는게 더 나을듯? 
 {
-	m_PrevRelativeLocation = transform->m_RelativeLocation;
+	m_PrevRelativeLocation = transform->GetRelativeLocation(); //이거 값복사일어나는거맞지?
 
-	//if (isGravity) //절대 좌표계에서 움직이는게 맞지않을까?
-	//transform->m_RelativeLocation.y += 9.8; //밑으로떨어지려면.. + 지?
-	// 현재 위치를 가져온다.
-	MathHelper::Vector2F Location = transform->GetRelativeLocation();
-	m_Velocity = m_Direction * m_Speed;
+	MathHelper::Vector2F Location = m_PrevRelativeLocation;
+	if(isGravity)
+		m_Velocity += (MathHelper::Vector2F(0, 1) * 98.0f);
 
-	// 새로운 위치를 계산한다.
-	Location += m_Velocity * DeltaTime;
+	Location += m_Velocity * DeltaTime; //변화량을 정확하게알아야지.. 
 
-	//중력에 의한 위치
-	Location += MathHelper::Vector2F(0, 1) * 98.0f * DeltaTime * 3; //센터랑하나?
-	//새로 계산된 위치를 적용한다.
 	transform->SetRelativeLocation(Location);
 }
 
-void Movement::PrevPosition()// aabb는 4방향으로 충돌이 가능하단 말이여.. 
+void Movement::PrevPosition(bool prevX, bool prevY)// aabb는 4방향으로 충돌이 가능하단 말이여.. 
 {
-	//y가 이전위치로 갈때랑 x가 이전위치로 갈때랑 다양하게 있을수있을텐데.. 그것들을어떻게 구분해야할까.. 
-	//y를 위로 가고... 
-	// transform->m_RelativeLocation.y = m_PrevRelativeLocation.y; //콜라이더좀 다들 그려야겠네.. 
-	 transform->m_RelativeLocation = m_PrevRelativeLocation; 
+	if (prevX)
+	{
+		transform->m_RelativeLocation.x = m_PrevRelativeLocation.x;
+	}
+	if (prevY)
+	{
+		m_Velocity.y = 0;
+		transform->m_RelativeLocation.y = m_PrevRelativeLocation.y;
+	}
+	 
 }
 
-void Movement::SetDirection(const MathHelper::Vector2F& Direction)
-{ 
-	m_Direction = Direction;
-	m_Direction.Normalize();
-}
 
 

@@ -25,6 +25,11 @@ bool BoxCollider::IsCollide(Collider* pOtherComponent)
     //일단 박스콜라이더 밖에 없으니까 
 }
 
+bool BoxCollider::IsCollide(AABB* aabb)
+{
+    return this->aabb->CheckIntersect(*aabb);;
+}
+
 void BoxCollider::ProcessBlock(Collider* pOtherComponent)
 {
     __super::ProcessBlock(pOtherComponent);

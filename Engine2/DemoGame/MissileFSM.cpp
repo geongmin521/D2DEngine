@@ -30,6 +30,8 @@ void MissileIdle::ExitState()
 
 void MissileChase::EnterState()
 {
+	D2D_VECTOR_2F dir = missile->target->m_RelativeLocation - missile->m_Transform->m_RelativeLocation;
+	// 아 맘에 안드는게 너무 많고 해야할것도 너무 많은데? 
 	missile->m_Transform->AddRelativeRotation(30); //플레이어를 바라보는 각도를 구하자
 }
 
@@ -45,11 +47,9 @@ void MissileChase::ExitState()
 {
 }
 
-void MissileAttack::EnterState() //키가 다른게 눌렸는데도 눌려져있어서 안되는 버그확인
+void MissileAttack::EnterState() 
 {
-	//각도만 가지고 벡터로 변환해야하는데.. 
-	missile->GetComponent<Movement>()->SetDirection({1,-0.3f});
-	missile->GetComponent<Movement>()->SetSpeed(1000);
+
 }
 
 void MissileAttack::Update(float DeltaTime)

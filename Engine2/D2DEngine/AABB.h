@@ -1,4 +1,5 @@
 #pragma once
+#include "MathHelper.h"
 #include "Collider.h" //이러면 안꼬일까? 무섭네.. 헤더파일 인클루드
 /*
 	AABB (Axis-Aligned Bounding Box) 축 정렬된 경계 상자
@@ -18,10 +19,10 @@
 class AABB
 {
 public:
-	AABB() : m_Center{ 0 }, m_Extent{ 0 } { }
+	AABB() : m_Center{ 0,0 }, m_Extent{ 0,0 } { }
 public:
-	D2D1_VECTOR_2F m_Center; // 중앙
-	D2D1_VECTOR_2F m_Extent; // x,y축 확장값	
+	MathHelper::Vector2F m_Center; // 중앙
+	MathHelper::Vector2F m_Extent; // x,y축 확장값	
 	// minX = m_Center.x - m_Extent.x
 	// maxX = m_Center.x + m_Extent.x
 	// minY = m_Center.y - m_Extent.y
@@ -67,7 +68,7 @@ public:
 
 	}
 
-	bool CheckPoint(const D2D1_VECTOR_2F& other) const
+	bool CheckPoint(const MathHelper::Vector2F& other) const
 	{
 		// self min,max
 		float BoxA_xmin = m_Center.x - m_Extent.x;
