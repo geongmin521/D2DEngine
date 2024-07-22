@@ -32,10 +32,19 @@ void Animation::LoadAnimationAsset(const std::wstring strFilePath)
 void Animation::Update(float fTimeElapsed)	//모든 컴포넌트에 안에 구현방식이있을수있나? 없지.. 
 {
 	__super::Update(fTimeElapsed);
+
 	assert(m_pAnimationAsset != nullptr);
+
+	if (m_bMirror) //이것도 공통 렌더로 빼자.. 그리고 업데이트에서 처리하지말고.. set에서 하고시픈데.. 업데이트에서 여기만 다르게 적용되면되겠구나.. 
+	{
+		m_ImageTransform = D2D1::Matrix3x2F::Scale(-1.0f, 1.0f, D2D1::Point2F(0, 0)) *
+			D2D1::Matrix3x2F::Translation(m_DstRect.right - m_DstRect.left, 0); //아니면 이게 처리가 안되서그런가?
+	}
+
 	if (m_pAnimationInfo == nullptr)
 		return;
-	
+	if (isLoop == false && m_bAnimationEnd == true) //이거때매 위에 미러 계산이안되었던듯? 근데 이미 업데이트에서할텐데??
+		return;
 	const FRAME_INFO& Frame = m_pAnimationInfo->Frames[m_FrameIndexCurr];
 	size_t MaxFrameCount = m_pAnimationInfo->Frames.size();
 
@@ -61,11 +70,7 @@ void Animation::Update(float fTimeElapsed)	//모든 컴포넌트에 안에 구현방식이있을
 	m_SrcRect = Frame.Source;
 	m_DstRect = { 0,0,m_SrcRect.right - m_SrcRect.left,m_SrcRect.bottom - m_SrcRect.top };
 
-	if (m_bMirror) //이것도 공통 렌더로 빼자.. 그리고 업데이트에서 처리하지말고.. set에서 하고시픈데.. 업데이트에서 여기만 다르게 적용되면되겠구나.. 
-	{
-		m_ImageTransform = D2D1::Matrix3x2F::Scale(-1.0f, 1.0f, D2D1::Point2F(0, 0)) *
-			D2D1::Matrix3x2F::Translation(m_DstRect.right - m_DstRect.left, 0);
-	}
+	
 }
 
 void Animation::Render(ID2D1RenderTarget* pRenderTarget) //렌더를 하나로 묶어놓자고했었는데.. 어떻게 할지 감이안오네..  //일단 모르겠으니 할거부터하자.. 
@@ -85,7 +90,7 @@ void Animation::SetAnimation(int index, bool mirror)
 	ANIMATION_INFO* pFound = m_pAnimationAsset->GetAnimationInfo(index);
 	if (pFound == nullptr)
 		return;
-
+	isLoop = true;
 	m_pAnimationInfo = pFound;
 	m_bMirror = mirror;
 	m_FrameIndexCurr = 0;

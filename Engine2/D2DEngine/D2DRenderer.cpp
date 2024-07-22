@@ -22,13 +22,13 @@ D2DRenderer* D2DRenderer::inst = nullptr;
 D2DRenderer* D2DRenderer::GetInstance(HWND hWnd)
 {
 	if (inst == nullptr) {
-		inst = new D2DRenderer(); //이니셜이 있어야하고.. 그럴려면 핸들이 또 필요한데.. 
+		inst = new D2DRenderer();
 		inst->Initialize(hWnd);
 	}
 	return inst;
 }
 
-void D2DRenderer::Initialize(HWND hWnd) //이건 어떻게 해야하나. 
+void D2DRenderer::Initialize(HWND hWnd) 
 {
 	m_hWnd = hWnd;
 	HRESULT hr = S_OK;

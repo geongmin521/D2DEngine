@@ -18,6 +18,7 @@ public:
 	const float GetDeltaTime();
 
 	void SetTimeScale(float scale);
+	float GetTimeScale() { return _TimeScale; }
 
 private:
 	LARGE_INTEGER _CurTime;

@@ -147,6 +147,7 @@
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CameraScene.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="D2DRenderer.h" />
     <ClInclude Include="FiniteStateMachine.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CameraScene.cpp" />
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="D2DEngine.cpp" />
     <ClCompile Include="D2DRenderer.cpp" />

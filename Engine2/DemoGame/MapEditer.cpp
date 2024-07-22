@@ -52,7 +52,7 @@ void MapEditer::Update(float deltaTime)
 			[curPos](const AABB* aabb) { return aabb->CheckPoint(curPos); }),mapCollider.end());
 	}
 
-	if (inputSystem->isKeyDown('S')) //input key 시스템이 이상한거같은데 한번더 살펴보자
+	if (inputSystem->isKeyDown('S'))
 	{
 		SaveCollider();
 		return;
@@ -64,14 +64,9 @@ void MapEditer::Update(float deltaTime)
 	}
 }
 
-//오케이 그리는거는 완료되었고.. 
-//이제 저장하는거랑 월드행렬 더하는것등등 업그레이드하면되는데 일단읽고쓰기부터하자.. 
-//맵도 띄워보고
-
-//카메라 이동이랑 저장할때 월드 좌표까지 더하는거까지 해서 그리면될려나? 일단 카메라부터 이동시켜보자. 
-void MapEditer::Render(ID2D1HwndRenderTarget* pRenderTarget) //벌써 부터 레이어가 필요하네.. 
+void MapEditer::Render(ID2D1HwndRenderTarget* pRenderTarget)
 {
-	pRenderTarget->SetTransform(m_Transform->m_WorldTransform); //이 트랜스폼이 자동으로 들어가는거 아니였나?
+	pRenderTarget->SetTransform(m_Transform->m_WorldTransform); 
 	D2DRenderer::GetInstance()->DrawBox(
 		startPoint.x,
 		startPoint.y,
@@ -92,13 +87,13 @@ void MapEditer::Render(ID2D1HwndRenderTarget* pRenderTarget) //벌써 부터 레이어�
 
 bool MapEditer::SaveCollider()
 {
-	std::wofstream file(L"..\\Data\\MapCollider.csv"); //이것도 함수로 하는게 아니라 콘스트로 들고있자.
+	std::wofstream file(L"..\\Data\\MapCollider.csv"); 
 	if (!file.is_open()) {
 		std::cout << "파일을 열 수 없습니다." << std::endl;
 		return false; // Return false if file cannot be opened
 	}
 
-	int colliderCount = mapCollider.size(); //이것도 잘써지는거같긴하다. 
+	int colliderCount = mapCollider.size();
 
 	// Write the collider count as the first line
 	file << colliderCount << std::endl;
@@ -118,7 +113,7 @@ bool MapEditer::SaveCollider()
 	return true;
 }
 
-bool MapEditer::LoadCollider()
+bool MapEditer::LoadCollider() //이거 반복되는 기분인데 외부 파일 읽어오는 과정을 하나로 통일할수있는 시스템을 개발하자
 {
 	std::wifstream file(L"..\\Data\\MapCollider.csv"); //읽기
 	if (!file.is_open()) {
@@ -133,7 +128,7 @@ bool MapEditer::LoadCollider()
 		std::wstringstream wss(line);
 		wss >> colliderCount;
 	}
-	//m_Animations[index].Frames.reserve(FrameCount);
+
 	for (int j = 0; j < colliderCount; j++)
 	{
 		AABB* col = new AABB();

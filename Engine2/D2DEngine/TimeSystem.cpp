@@ -58,5 +58,6 @@ const float TimeManager::GetDeltaTime()
 
 void TimeManager::SetTimeScale(float scale)
 {
+	_DeltaTime = 0;
 	_TimeScale = scale;
 }

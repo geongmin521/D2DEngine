@@ -11,7 +11,7 @@ public:
 	World();
 	virtual ~World();	
 	std::list<GameObject*> m_GameObjects;
-	std::vector<Collider*> m_Colliders; //이것도 겹칠필요없으니까 set으로 이것도좀더 공부해야하긴해야하는데.. 
+	 //이것도 겹칠필요없으니까 set으로 이것도좀더 공부해야하긴해야하는데.. 
 	AABB* m_pCullingBound = nullptr; 
 	AABB* m_CullingBoundDefault;	
 public:	
@@ -19,8 +19,6 @@ public:
 	void Render(ID2D1HwndRenderTarget* pRenderTarget);
 	void Clear();
 	void SetCullingBound(AABB* pBound) { m_pCullingBound = pBound; }
-	void CollisionCheck();
-
 	// 템플릿 함수로 GameObject를 생성한다. 템플릿때문이였나? 
 	template<typename T>
 	T* CreateGameObject()
@@ -30,7 +28,6 @@ public:
 		T* newObject = new T();
 		newObject->SetOwner(this); //이건 어떻게되는거지 도대체.. 
 		
-		InsertColliders(newObject);
 		for (auto it = m_GameObjects.begin(); it != m_GameObjects.end(); it++)
 		{
 			if ((*it)->renderOrder > newObject->renderOrder)
@@ -51,8 +48,5 @@ public:
 		m_GameObjects.erase(remove(m_GameObjects.begin(), m_GameObjects.end(), gameObject), m_GameObjects.end());
 		delete del; //먼저 오브젝트 목록에서 지우고 진짜 삭제하기.. 
 	}
-
-	void InsertColliders(GameObject* newObject);
-
 };
 

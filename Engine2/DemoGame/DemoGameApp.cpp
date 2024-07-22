@@ -16,11 +16,6 @@ void DemoGameApp::Initialize(HINSTANCE hInstance, int nShowCmd)
 	__super::Initialize(hInstance, nShowCmd);	 // 윈도우 생성 , Direct2D 초기화
 	world->CreateGameObject<MapEditer>();
 	Map* map = world->CreateGameObject<Map>();
-	for (int i = 0; i < map->boxCols.size(); i++)
-	{
-		world->m_Colliders.push_back(map->boxCols[i]);
-	}
-	
 	world->CreateGameObject<Camera>();
 	world->CreateGameObject<MissileSpawner>()->target =
 	world->CreateGameObject<Character>()->m_Transform;

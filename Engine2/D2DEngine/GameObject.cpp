@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "GameObject.h"
-//#include "Component.h"
 #include "AABB.h"
 #include "D2DRenderer.h"
 #include "Transform.h"
@@ -12,7 +11,7 @@ GameObject::GameObject()
 	m_BoundBox = new AABB();
 }
 
-GameObject::~GameObject() //컴포넌트끼리의 비교우위를 줄수있을까? 
+GameObject::~GameObject() 
 {
 	for (auto& pComponent : m_OwnedComponents)
 	{
@@ -21,18 +20,20 @@ GameObject::~GameObject() //컴포넌트끼리의 비교우위를 줄수있을까?
 	m_OwnedComponents.clear();
 }
 
-void GameObject::Update(float deltaTime) //컴포넌트를 넣을때 우선순위큐를 적용해서 넣으면 넣는 순간에 상관없이 정렬할수있지않을까? 
+void GameObject::Update(float deltaTime) 
 {
-	for (auto& pComponent : m_OwnedComponents)//컴포넌트들의 업데이트 순서를 조정하는방법은 넣는 순서밖에 없나 이것도 좀 그런거같고.. 무브먼트를 먼저하고 
+	for (auto& pComponent : m_OwnedComponents)
+		//컴포넌트에 정렬 번호를 쥐어주고 우선순위큐로 관리하면 컴포넌트들을 정해진 순서대로 호출가능
 	{
-		pComponent->Update(deltaTime);
+		if(pComponent->getActive())
+			pComponent->Update(deltaTime);
 	}
 	if (m_Transform)
-		m_BoundBox->m_Center = m_Transform->GetWorldLocation(); //트랜스폼이 월드 좌표를구하고 무브먼트가 상대좌표를 변경해봤자 월드는 안바뀌니까 박스는 이전좌표가 맞아. 
+		m_BoundBox->m_Center = m_Transform->GetWorldLocation();
 }
 
 
-void GameObject::Render(ID2D1HwndRenderTarget* pRenderTarget)//렌더가능한.. 무엇인가를 또 모아놓을 필요가 있을려나?
+void GameObject::Render(ID2D1HwndRenderTarget* pRenderTarget)
 {
 	for (auto& pComponent : m_OwnedComponents) 
 	{	

@@ -8,7 +8,7 @@ ResourceManager::ResourceManager()
 	ResourceManager::pInstance = this;
 }
 
-ResourceManager::~ResourceManager() //뭐야 리소스 매니저 왜 소멸됨?
+ResourceManager::~ResourceManager() 
 {
 	assert(m_BitmapMap.empty());
 	assert(m_AnimationAssetMap.empty());
@@ -20,23 +20,22 @@ bool ResourceManager::CreateD2DBitmapFromFile(std::wstring strFilePath, ID2D1Bit
 {
 	if (m_BitmapMap.find(strFilePath) != m_BitmapMap.end()) 
 	{
-		*bitmap = m_BitmapMap[strFilePath]; //맵에서 찾으면 그걸 넣어주기
+		*bitmap = m_BitmapMap[strFilePath];
 		(*bitmap)->AddRef();
 		return true;
 	}
 	ID2D1Bitmap* bmp;
 	NewBitmapFromFile(strFilePath.c_str(), &bmp);
-	m_BitmapMap[strFilePath] = bmp;		//추가해주고 다시 넣기
-	*bitmap = m_BitmapMap[strFilePath]; //맵에서 찾으면 그걸 넣어주기
+	m_BitmapMap[strFilePath] = bmp;		
+	*bitmap = m_BitmapMap[strFilePath]; 
 	(*bitmap)->AddRef();
 	return true;
 }
 
 void ResourceManager::ReleaseD2DBitmap(std::wstring strFilePath)
 {
-	// 맵에 해당 키가 존재하면 비트맵을 해제한다.
 	std::map<std::wstring, ID2D1Bitmap*>::iterator iter = m_BitmapMap.find(strFilePath);
-	assert(iter != m_BitmapMap.end()); // 컨테이너에 없으면 Create/Release 짝이 잘못됐다.
+	assert(iter != m_BitmapMap.end());
 
 	if (iter != m_BitmapMap.end())
 	{

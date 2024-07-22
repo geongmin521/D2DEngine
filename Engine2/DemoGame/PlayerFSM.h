@@ -71,6 +71,8 @@ class PlayerJump : public PlayerFSM
 public:
 	PlayerJump(FiniteStateMachine* pOwner, std::string Name) : PlayerFSM(pOwner, Name) {};
 private:
+	bool doublejump;
+	float doublejumpTimer; //최소 더블점프 가능한 시간
 	virtual void EnterState() override;
 	virtual void Update(float DeltaTime) override;
 	virtual void ExitState() override;

@@ -4,6 +4,11 @@
 class GameObject;
 class Component
 {
+
+private:
+	bool isActive = true;
+	virtual void Enable();	//isActive 가 true가 될때 호출
+	virtual void Disable();	//isActive 가 false가 될때 호출
 public:
 	Component();
 	virtual ~Component();
@@ -11,11 +16,14 @@ public:
 	GameObject* m_pOwner;
 
 public:
-	
+	void setActive(bool active);
+	bool getActive() { return isActive; }
 	void SetOwner(GameObject* pOwner) { m_pOwner = pOwner; }
 
 	virtual void Update(float deltaTime);
 	virtual void Render(ID2D1RenderTarget* pRenderTarget);
+
+
 };
 
 //pch가 항상위면 생기지않지않나?

@@ -9,17 +9,17 @@ bool AnimationAsset::LoadAnimation(std::wstring FilePath)
 
 	if (FilePath == std::wstring(L"SpiderMan"))
 	{
-		LoadAnimationFromCSV(0, L"..\\Data\\playerAni.csv");// 그럼 애니메이션이 다르다면 여기서 반복문을 돌려야겠네
+		LoadAnimationFromCSV(0, L"..\\Data\\playerAni.csv");
 	}
 
 	if (FilePath == std::wstring(L"Missile"))
 	{
-		LoadAnimationFromCSV(0, L"..\\Data\\missileAni.csv");// 그럼 애니메이션이 다르다면 여기서 반복문을 돌려야겠네
+		LoadAnimationFromCSV(0, L"..\\Data\\missileAni.csv");
 	}
 	return true;
 }
 
-bool AnimationAsset::LoadAnimationFromCSV(int index, const wchar_t* fileName)  //인덱스 별로하지말고.. 전부 가져오도록하자
+bool AnimationAsset::LoadAnimationFromCSV(int index, const wchar_t* fileName)  
 {
 	std::wifstream file(fileName); 
 	if (!file.is_open()) {
@@ -68,11 +68,4 @@ bool AnimationAsset::LoadAnimationFromCSV(int index, const wchar_t* fileName)  /
 	}		
 	return true;
 }
-//음.. 필요한리소를 전부 구해서.. 작업을 어떻게 하는게 편할지 계산해봐야겠다.. 
-//지금 필요한 리소스 미사일
-//구한거 맵이랑 플레이어
-//내가 원한게임은 경주게임이였는데 흐음.. 정해진 장애물을 통과하는 방식인데.. 맵도 별로없으니까..
-//카메라 움직이면됨.. 
-//저거 4개만 더 분리하면되는데.. 
-//어차피 내엔진 이잖아.. 그럴거면 나는 저 프레임 렉트로 안하고싶은데..
-//어떻게 할까.. 
+

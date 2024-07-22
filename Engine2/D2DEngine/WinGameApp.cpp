@@ -28,6 +28,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
+	case WM_SETFOCUS:
+		timeManager->SetTimeScale(1); 
+		break;
+	case WM_KILLFOCUS:
+		timeManager->SetTimeScale(0);
+		break;
+	case WM_ENTERSIZEMOVE:
+		timeManager->SetTimeScale(0);
+		break;
+	case WM_EXITSIZEMOVE:
+		timeManager->InitTime(); //호출이 한번씩은 잘들어오는데 그래도 탈출하는거보니 쌓여있는 시간때문에 그런거같기도?
+		timeManager->SetTimeScale(1);
+		break;
+
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
@@ -59,16 +73,18 @@ void WinGameApp::Initialize(HINSTANCE hInstance, int nShowCmd)
 	world = new World;
 }
 
-void WinGameApp::Run() //오케이 된거지? 
+void WinGameApp::Run() 
 {
 	MSG msg;
 
-	while (true) //아까는 메세지가 계속들어와서 그런듯?
+	while (true) 
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
+
+			//메세지 중에 윈도우 포커스가 떠나는 메세지확인하기
 		}
 		else
 		{
@@ -100,7 +116,7 @@ void WinGameApp::Render(ID2D1HwndRenderTarget* pRenderTarget)
 
 void WinGameApp::Uninitialize()
 {
-	//D2DRenderer::GetInstance()->Uninitialize();
+	D2DRenderer::GetInstance()->Uninitialize(); //지워야하는거 맞지않나?
 }
 
 bool WinGameApp::InitInstance(HINSTANCE hInstance, int nCmdShow)

@@ -111,6 +111,9 @@
     <ClInclude Include="IColliderNotify.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -186,6 +189,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="TimeSystem.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

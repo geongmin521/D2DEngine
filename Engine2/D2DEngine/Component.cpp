@@ -11,6 +11,18 @@ Component::~Component()
 
 }
 
+void Component::setActive(bool active)
+{
+	if (isActive == active)
+		return;//이미 같으면 리턴
+	isActive = active;
+
+	if (active)
+		Enable();
+	else
+		Disable();
+}
+
 void Component::Update(float deltaTime)
 {
 
@@ -19,4 +31,12 @@ void Component::Update(float deltaTime)
 void Component::Render(ID2D1RenderTarget* pRenderTarget)
 {
 
+}
+
+void Component::Enable()
+{
+}
+
+void Component::Disable()
+{
 }

@@ -5,18 +5,16 @@
 class Transform : public Component
 {
 private :
-	//여기에 월드포지션을 넣을까 //월드의 변환은 외부에서 조작안해야할거같은데..
-	//근데또 상대좌표만 필요한게아니라.. 월드 좌표도 필요해서.. 좀더 고민을 해봐야할듯
+	
 public:
 	Transform();
 	virtual ~Transform();
 	Transform* m_pParentScene = nullptr;		// 부모 Scene 컴포넌트	
-	MathHelper::Vector2F		m_RelativeScale = { 1,1 };	// 상대 크기
-	float				m_RelativeRotation = 0; // 상대 회전
-	MathHelper::Vector2F 		m_RelativeLocation = { 0,0 }; // 상대 위치 //이것도 매스 헬퍼로 매핑안되나? 
-	D2D_MATRIX_3X2_F	m_RelativeTransform; // 상대 복합 변환
-	
-	D2D_MATRIX_3X2_F	m_WorldTransform;    // 부모까지 반영된 최종 변환
+	MathHelper::Vector2F m_RelativeScale = { 1,1 };	// 상대 크기
+	MathHelper::Vector2F m_RelativeLocation = { 0,0 }; // 상대 위치 //이것도 매스 헬퍼로 매핑안되나? 
+	D2D_MATRIX_3X2_F	 m_RelativeTransform; // 상대 복합 변환						 
+	D2D_MATRIX_3X2_F	 m_WorldTransform;    // 부모까지 반영된 최종 변환
+	float	m_RelativeRotation = 0; // 상대 회전
 	// RelativeTransform과 	m_WorldTransform을 계산한다.
 	virtual void Update(float deltaTime) override;
 	void SetParent(Transform* pParentScene) { m_pParentScene = pParentScene; }

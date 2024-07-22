@@ -110,23 +110,28 @@ namespace MathHelper
 			return sqrtf(this->x * this->x + this->y * this->y);
 		}
 
+		float Dot(const Vector2F& vector) const
+		{
+			return (this->x * vector.x) + (this->y * vector.y);
+		}
+
 		float LengthSquared() const
 		{
 			return (this->x * this->x + this->y * this->y);
 		}
 
-		float Normalize()
+		Vector2F& Normalize() const
 		{
 			float length = Length();
 
-			if (length > 0.0f)
-			{
-				float invLength = 1.0f / length;
-				this->x *= invLength;
-				this->y *= invLength;
-			}
-
-			return length;
+			//if (length > 0.0f)
+			//{
+			//	float invLength = 1.0f / length;
+			//	this->x *= invLength;
+			//	this->y *= invLength;
+			//}
+			Vector2F nor = { this->x / length, this->y / length };
+			return nor;
 		}
 
 	};

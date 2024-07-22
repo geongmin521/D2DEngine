@@ -1,4 +1,5 @@
 #include "../D2DEngine/pch.h"
+#include "../D2DEngine/MathHelper.h"
 #include "MissileFSM.h"
 #include "Missile.h"
 #include "../D2DEngine/FiniteStateMachine.h"
@@ -28,11 +29,15 @@ void MissileIdle::ExitState()
 {
 }
 
-void MissileChase::EnterState()
+void MissileChase::EnterState() //생각해보니 각자 부모가있을텐데.. 이거는 서로 다른 각도들아님? 
 {
-	D2D_VECTOR_2F dir = missile->target->m_RelativeLocation - missile->m_Transform->m_RelativeLocation;
-	// 아 맘에 안드는게 너무 많고 해야할것도 너무 많은데? 
-	missile->m_Transform->AddRelativeRotation(30); //플레이어를 바라보는 각도를 구하자
+	//내적한값의 아크코사인을하면 두 벡터사이의 각도가 나옴
+	MathHelper::Vector2F direction = missile->target->m_RelativeLocation - missile->m_Transform->m_RelativeLocation;
+	float dot = missile->dir.Dot(direction); //방향이 왼쪽인 애들은 외적으로 부호까지 찾아줘야하고.. 
+	dot /= direction.Length();
+	float acos = std::acosf(dot) * 180.0 / PI; 
+	missile->m_Transform->AddRelativeRotation(acos);
+	missile->dir = direction.Normalize(); 
 }
 
 void MissileChase::Update(float DeltaTime)
@@ -49,7 +54,8 @@ void MissileChase::ExitState()
 
 void MissileAttack::EnterState() 
 {
-
+	missile->speed = 1000;
+ 	m_pOwner->m_pOwner->GetComponent<Movement>()->SetVelocity({ missile->dir.x * missile->speed, missile->dir.y * missile->speed });
 }
 
 void MissileAttack::Update(float DeltaTime)

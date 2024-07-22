@@ -8,9 +8,10 @@ class Character :
 {
 private:
 	float speed;
-	float Jumpspeed;
+	float Jumpspeed; float MoveY =0;
 public:
 	Character();
+	void Jump();
 	virtual ~Character();	
 	virtual void Update(float deltaTime);
 	virtual void Render(ID2D1HwndRenderTarget* pRenderTarget);
@@ -20,7 +21,6 @@ public:
 	virtual void OnEndOverlap	(Collider* pOtherComponent) override;
 
 	bool isBlock[2];
-	bool previsBlock[2];
 	bool isground = false;
 };
 

@@ -6,7 +6,7 @@
 
 #ifndef PCH_H
 #define PCH_H
-
+#define PI 3.14159265359
 #define WinSizeX 1920
 #define WinSizeY 1080
 #define WinHalfSizeX 960

@@ -14,8 +14,8 @@ void Movement::Update(float DeltaTime) //무브먼트가 독립적인 힘여러개가 합쳐지는
 	m_PrevRelativeLocation = transform->GetRelativeLocation(); //이거 값복사일어나는거맞지?
 
 	MathHelper::Vector2F Location = m_PrevRelativeLocation;
-	if(isGravity)
-		m_Velocity += (MathHelper::Vector2F(0, 1) * 98.0f);
+	//if(isGravity)
+	//	m_Velocity += (MathHelper::Vector2F(0, 1) * 9.8f); //이것도 계속들어오고..  //중력을 rigidbody로 분리
 
 	Location += m_Velocity * DeltaTime; //변화량을 정확하게알아야지.. 
 
@@ -30,7 +30,6 @@ void Movement::PrevPosition(bool prevX, bool prevY)// aabb는 4방향으로 충돌이 가
 	}
 	if (prevY)
 	{
-		m_Velocity.y = 0;
 		transform->m_RelativeLocation.y = m_PrevRelativeLocation.y;
 	}
 	 

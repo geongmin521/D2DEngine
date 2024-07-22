@@ -4,11 +4,9 @@
 #include "RigidBody.h"
 #include "AABB.h"
 
-RigidBody::RigidBody(Transform* transform, bool isGravity )
+RigidBody::RigidBody()
 {
-	this->isGravity = isGravity;
-	tr = transform;
-	GravityScale = 9.8;
+	Enable();
 }
 
 RigidBody::~RigidBody()
@@ -17,15 +15,18 @@ RigidBody::~RigidBody()
 
 void RigidBody::Update(float deltaTime)
 {
-	//if (isGravity) //절대 좌표계에서 움직이는게 맞지않을까?
-	//	tr->m_RelativeLocation.y += GravityScale; //밑으로떨어지려면.. + 지?
+	if (isGravity)
+		GravityScale += 0.098; //중력가속도로 계속더해짐 델타타임은 무브먼트에서 더해질거임
 }
 
-void RigidBody::Render(ID2D1RenderTarget* pRenderTarget, D2D1_MATRIX_3X2_F transform)
+void RigidBody::Enable()
 {
-	D2DRenderer::GetInstance()->DrawBox(
-		aabb->GetMinX(),
-		aabb->GetMaxY(),
-		aabb->GetMaxX(),
-		aabb->GetMinY());
+	isGravity = true;
+	GravityScale = 0;
 }
+
+void RigidBody::Disable()
+{
+	GravityScale = 0;
+}
+

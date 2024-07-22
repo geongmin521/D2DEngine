@@ -7,17 +7,20 @@ class AABB;
 class RigidBody :
     public Component
 {
-
-public:
-    //이친구는 트랜스폼에 접근해야만함.. 
-	//그리고 충돌도 담당해야하니까 aabb도 들고있어야하고.. 
-	RigidBody(Transform* transform, bool isGravity = true);
-	virtual ~RigidBody();
-	Transform* tr;
-	AABB* aabb;
+private:
 	bool isGravity;
-	float GravityScale;
+	float GravityScale;// 중력은 바꾸고 싶을수도 있는데..
+public:
+
+	RigidBody();
+	virtual ~RigidBody();
 	virtual void Update(float deltaTime);
-	virtual void Render(ID2D1RenderTarget* pRenderTarget, D2D1_MATRIX_3X2_F transform);
+	//virtual void Render(ID2D1RenderTarget* pRenderTarget); //그릴거는 딱히 없는듯.. 
+	virtual void Enable() override;
+	virtual void Disable() override;
+
+	float getGravity() { return GravityScale; }
+	void resetGravity() {  GravityScale = 0; }
+
 };
 

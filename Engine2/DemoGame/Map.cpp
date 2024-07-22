@@ -54,7 +54,7 @@ bool Map::LoadCollider() //맵에디터와 겹치는거같지만 다른점은 그냥편집을 위한 aa
 			getline(wss, token, L',');
 			col->m_Extent.y = (float)_wtoi(token.c_str());
 		}
-		boxCols.push_back(new BoxCollider(col, CollisionType::Block,this)); //오 뭔가 잘되는거같은데?
+		boxCols.push_back(new BoxCollider(col, CollisionType::Block,this,CollisionLayer::Platform)); //오 뭔가 잘되는거같은데?
 	}
 	return true;
 }

@@ -7,9 +7,11 @@
 #include "AABB.h"
 
 
-BoxCollider::BoxCollider(AABB* aabb, CollisionType type, IColliderNotify* notify) : aabb(aabb)
+BoxCollider::BoxCollider(AABB* aabb, CollisionType type, IColliderNotify* notify, CollisionLayer layer = CollisionLayer::Default)
+    : aabb(aabb)
 {
     m_CollisionType = type;
+    this->layer = layer;
     this->notify = notify;
 }
 
