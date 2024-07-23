@@ -9,11 +9,15 @@ class PlayerFSM : public FSMState
 public:
 	PlayerFSM(FiniteStateMachine* pOwner, std::string Name);
 	~PlayerFSM();
+	//공유전이를 이 위쪽에서 처리하면될거같은데?
+	virtual void EnterState()override;
+	virtual void Update(float DeltaTime) override;
+	virtual void ExitState() override;
 	Animation* ani; 
 	Movement* move;
 	Character* character;
 };
-//공유전이같은 공통적은 부분의 상태전이는 더 위쪽에서 처리하기 
+
 
 class PlayerIdle : public PlayerFSM
 {

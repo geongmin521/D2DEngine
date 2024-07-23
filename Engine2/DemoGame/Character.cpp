@@ -92,8 +92,9 @@ void Character::OnBlock(Collider* pOtherComponent) //박스콜라이더였으면 컴포넌트
 	//콜라이더가 그냥 컴포넌트를 상속받으면안되나? 일관되게 컨트롤할수있긴한데.. //아님 걍 레이어로 가져올까? .. 
 	if (pOtherComponent->GetCollisionLayer() == CollisionLayer::Missile) //충돌레이어를 바로 넣어줄까? 충돌한 물체가 어떤물체인지 알수가없네.. 
 	{
+		//alive = false;
 		//다이를 전해줘야하는데.. 공유전이이기도하고.. 여기서 바로 바꿔줘도 되나? 
-		GetComponent<FiniteStateMachine>()->SetNextState("Die");//모든 오브젝트생성을 일관되게 만들수있을려면.. 
+		//GetComponent<FiniteStateMachine>()->SetNextState("Die");//모든 오브젝트생성을 일관되게 만들수있을려면.. 
 		//팩토리가 있어야겠지? 
 	}
 	AABB prevXBox = *m_BoundBox, prevYBox = *m_BoundBox; 

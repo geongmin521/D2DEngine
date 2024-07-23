@@ -9,6 +9,7 @@ class Character :
 private:
 	float speed;
 	float Jumpspeed; float MoveY =0;
+
 public:
 	Character();
 	void Jump();
@@ -19,7 +20,7 @@ public:
 	virtual void OnBlock		(Collider* pOtherComponent) override;
 	virtual void OnBeginOverlap (Collider* pOtherComponent) override;
 	virtual void OnEndOverlap	(Collider* pOtherComponent) override;
-
+	bool alive = true;
 	bool isBlock[2];
 	bool isground = false;
 };

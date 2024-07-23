@@ -30,6 +30,26 @@ PlayerFSM::~PlayerFSM()
 
 }
 
+void PlayerFSM::EnterState() //상속받은 모든 클래스들이 공통적인 부분을 실행했으면 좋겠는데?
+{
+}
+
+void PlayerFSM::Update(float DeltaTime)
+{
+	if (character->alive == false)
+	{
+		m_pOwner->SetNextState("Die"); //어떠한 상태라도 공중에 있으면 점프상태로
+	}
+	if (character->isground == false)
+	{
+		m_pOwner->SetNextState("Jump"); //어떠한 상태라도 공중에 있으면 점프상태로
+	}
+}
+
+void PlayerFSM::ExitState()
+{
+}
+
 void PlayerAttack::EnterState() 
 {
 	ani->SetAnimation(6, false); 
@@ -72,6 +92,7 @@ void PlayerRun::EnterState()
 
 void PlayerRun::Update(float DeltaTime)
 {
+	__super::Update(DeltaTime);
 	ani->SetMirror(move->GetVelocity().x > 0 ? false : true);
 	if (!inputSystem->isKey(VK_LEFT) && !inputSystem->isKey(VK_RIGHT))
 	{
@@ -104,16 +125,13 @@ void PlayerDie::ExitState()
 
 void PlayerIdle::EnterState()
 {
+
 	ani->SetAnimation(0, move->GetVelocity().x > 0 ? false : true);
 }
 
 void PlayerIdle::Update(float DeltaTime)
 {
-	if (character->isground == false)
-	{
-		m_pOwner->SetNextState("Jump");
-
-	}
+	__super::Update(DeltaTime); //공유전이를 위해 업데이트만 모든상태가 부모를 호출?
 	if(move->GetVelocity().x != 0)
 	{
 		m_pOwner->SetNextState("Run");
