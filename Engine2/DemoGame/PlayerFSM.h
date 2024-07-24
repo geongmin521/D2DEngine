@@ -29,6 +29,28 @@ private:
 	virtual void ExitState() override;
 };
 
+class PlayerShared : public PlayerFSM
+{
+public:
+	PlayerShared(FiniteStateMachine* pOwner, std::string Name);
+private:
+	virtual void EnterState() override;
+	virtual void Update(float DeltaTime) override;
+	virtual void ExitState() override;
+};
+
+class PlayerHanging : public PlayerFSM
+{
+public:
+	float SwingSpeed = 20;
+	float Distance = 300;
+	PlayerHanging(FiniteStateMachine* pOwner, std::string Name) : PlayerFSM(pOwner, Name) {};
+private:
+	virtual void EnterState() override;
+	virtual void Update(float DeltaTime) override;
+	virtual void ExitState() override;
+};
+
 
 class PlayerAttack : public PlayerFSM 
 {

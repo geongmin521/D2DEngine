@@ -23,6 +23,16 @@ private:
 	virtual void ExitState() override;
 };
 
+class MissileShared : public MissileFSM
+{
+public:
+	MissileShared(FiniteStateMachine* pOwner, std::string Name) ;
+private:
+	virtual void EnterState() override;
+	virtual void Update(float DeltaTime) override;
+	virtual void ExitState() override;
+};
+
 
 class MissileChase : public MissileFSM
 {

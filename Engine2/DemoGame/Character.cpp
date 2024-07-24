@@ -9,11 +9,13 @@
 #include "../D2DEngine/D2DRenderer.h"
 #include "../D2DEngine/AABB.h"
 #include "../D2DEngine/BoxCollider.h"
-#include "PlayerFSM.h" //아따 헤더파일도 참 많구만.. 
+#include "PlayerFSM.h" 
+#include "SpiderWeb.h" 
 
 Character::Character()
 {
-	SetBoundBox(0, 0, 100, 100);
+
+	SetBoundBox(0, 0, 100, 100); //자식관계가 역전되는게 가능할까?
 	speed = 300;
 	Jumpspeed = 500;
 	AddComponent(new Animation(L"..\\Data\\spider.png", L"SpiderMan"));//컴포넌트들을 계속 순회하면서 찾지않게 
@@ -24,12 +26,15 @@ Character::Character()
 	AddComponent(new Movement(m_Transform ,true)); 
 	FiniteStateMachine* fsm = new FiniteStateMachine();
 	AddComponent(fsm); 
+	
 	fsm->CreateState<PlayerIdle>("Idle");
 	fsm->CreateState<PlayerAttack>("Attack");
 	fsm->CreateState<PlayerHit>("Hit");
 	fsm->CreateState<PlayerDie>("Die");
 	fsm->CreateState<PlayerRun>("Run");
 	fsm->CreateState<PlayerJump>("Jump");
+	fsm->CreateState<PlayerShared>("Shared");
+	fsm->CreateState<PlayerHanging>("Hanging");
 
 	fsm->SetNextState("Idle"); 
 	renderOrder = 100; 
@@ -44,28 +49,46 @@ Character::~Character()
 
 void Character::Update(float deltaTime)
 {
+
 	isBlock[0] = false; 
 	isBlock[1] = false;
 	
 	float MoveX = 0;
-
-	if (inputSystem->isKey(VK_RIGHT)) 
+	if (alive)
 	{
-		MoveX = 1 * speed;
+		if (ishanging == false)
+		{
+			if (inputSystem->isKey('D')) //키입력만 못받게하면되나? 
+			{
+				MoveX = 1 * speed;
+			}
+			if (inputSystem->isKey('A'))
+			{
+				MoveX = -1 * speed;
+			}
+		}
+		
+		if (inputSystem->GetMouseButtonDown(0))
+		{
+			web->isActive = true; //이것도 getter setter 만들자
+			web->m_Transform->SetRelativeLocation(m_Transform->GetWorldLocation());
+			MathHelper::Vector2F dir = inputSystem->GetMouseState().GetMousePos() - m_Transform->GetWorldLocation();
+			web->Fire(dir); //wasd로 움직이며 스페이바로 점프 마우스로 발사? ㅇㅋ //마우스 포지션과 플레이어의 위치로 방향만 보내주자. 
+		}
+		if (inputSystem->isKeyDown(VK_SPACE) && isground)
+		{
+			isground = false;
+			Jump();
+		}
+	}
 
-	}
-	if (inputSystem->isKey(VK_LEFT)) 
-	{
-		MoveX = -1 * speed;	
-	}
-	if (inputSystem->isKeyDown(VK_SPACE) && isground )
-	{
-		isground = false;
-		Jump();
-	}
 
-	if(isground) 
+	if (isground)
+	{
 		GetComponent<RigidBody>()->setActive(false);
+		MoveY = 0;
+	}
+		
 	MoveY += GetComponent<RigidBody>()->getGravity();
  	GetComponent<Movement>()->SetVelocity({ MoveX,  MoveY });
 
@@ -75,9 +98,9 @@ void Character::Update(float deltaTime)
 void Character::Render(ID2D1HwndRenderTarget* pRenderTarget)
 {
 	__super::Render(pRenderTarget);
-	D2DRenderer::GetInstance()->DrawTextFunc(std::to_wstring(GetComponent<Movement>()->GetVelocity().x) , 0, 0);
-	D2DRenderer::GetInstance()->DrawTextFunc(std::to_wstring(isBlock[0]) , 0, 100);
-	D2DRenderer::GetInstance()->DrawTextFunc(std::to_wstring(isBlock[1]) , 0, 200);
+	
+	D2DRenderer::GetInstance()->DrawTextFunc(m_Transform->ShowPos(), 0, 0);
+
 	D2DRenderer::GetInstance()->DrawAABB(*m_BoundBox); 
 }
 
@@ -87,32 +110,31 @@ void Character::Jump()
 	GetComponent<RigidBody>()->setActive(true);
 }
 
-void Character::OnBlock(Collider* pOtherComponent) //박스콜라이더였으면 컴포넌트를 상속받아서 알수잇을텐데.. 
+void Character::OnBlock(Collider* pOtherComponent)
 {
-	//콜라이더가 그냥 컴포넌트를 상속받으면안되나? 일관되게 컨트롤할수있긴한데.. //아님 걍 레이어로 가져올까? .. 
-	if (pOtherComponent->GetCollisionLayer() == CollisionLayer::Missile) //충돌레이어를 바로 넣어줄까? 충돌한 물체가 어떤물체인지 알수가없네.. 
+	if (pOtherComponent->GetCollisionLayer() == CollisionLayer::Missile) //이전위치도 
 	{
 		//alive = false;
-		//다이를 전해줘야하는데.. 공유전이이기도하고.. 여기서 바로 바꿔줘도 되나? 
-		//GetComponent<FiniteStateMachine>()->SetNextState("Die");//모든 오브젝트생성을 일관되게 만들수있을려면.. 
-		//팩토리가 있어야겠지? 
 	}
-	AABB prevXBox = *m_BoundBox, prevYBox = *m_BoundBox; 
-	prevXBox.m_Center.x = GetComponent<Movement>()->GetPrevPos().x;	
-	prevYBox.m_Center.y = GetComponent<Movement>()->GetPrevPos().y; 
-	isBlock[0] = !pOtherComponent->IsCollide(&prevXBox);
-	isBlock[1] = !pOtherComponent->IsCollide(&prevYBox); 
-	if (isBlock[1] == true && m_Transform->m_RelativeLocation.y > GetComponent<Movement>()->GetPrevPos().y)
+	else if (pOtherComponent->GetCollisionLayer() == CollisionLayer::Platform)
 	{
-		isground = true;
+		AABB prevXBox = *m_BoundBox, prevYBox = *m_BoundBox;  //여기 정리하자. 이제 거미줄을 쏴야하는데
+		//플레이어가 들고있어야할거고 
+		prevXBox.m_Center.x = GetComponent<Movement>()->GetPrevPos().x;
+		prevYBox.m_Center.y = GetComponent<Movement>()->GetPrevPos().y;
+		isBlock[0] = !pOtherComponent->IsCollide(&prevXBox);
+		isBlock[1] = !pOtherComponent->IsCollide(&prevYBox);
+		if (isBlock[1] == true && m_Transform->m_RelativeLocation.y > GetComponent<Movement>()->GetPrevPos().y)
+		{
+			isground = true;
+		}
+		else if (isBlock[1] == true && m_Transform->m_RelativeLocation.y < GetComponent<Movement>()->GetPrevPos().y)
+		{
+			//위쪽에서 부딪힌거임.. 
+			GetComponent<Movement>()->SetVelocity({ 0,0 });
+		}
+		GetComponent<Movement>()->PrevPosition(isBlock[0], isBlock[1]);
 	}
-	else if (isBlock[1] == true && m_Transform->m_RelativeLocation.y < GetComponent<Movement>()->GetPrevPos().y)
-	{
-		//위쪽에서 부딪힌거임.. 
-		GetComponent<Movement>()->SetVelocity({0,0});
-	}
-	GetComponent<Movement>()->PrevPosition(isBlock[0], isBlock[1]); 
-
 }
 
 void Character::OnBeginOverlap(Collider* pOtherComponent)

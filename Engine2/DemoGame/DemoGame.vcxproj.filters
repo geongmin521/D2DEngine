@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -51,6 +48,9 @@
     <ClInclude Include="MissileSpawner.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="SpiderWeb.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DemoGame.cpp">
@@ -81,6 +81,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="MissileSpawner.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SpiderWeb.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

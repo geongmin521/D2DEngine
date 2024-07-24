@@ -162,6 +162,12 @@ void D2DRenderer::DrawBox(int left, int top, int right, int bottom)
 		D2D1::RectF(left, top, right, bottom), g_pBlackBrush);
 }
 
+void D2DRenderer::DrawLine(MathHelper::Vector2F start, MathHelper::Vector2F end)
+{
+	m_pRenderTarget->DrawLine(
+		{ start.x,start.y }, { end.x,end.y}, g_pBlackBrush);
+}
+
 void D2DRenderer::DrawAABB(AABB aabb)
 {
 	m_pRenderTarget->DrawRectangle(

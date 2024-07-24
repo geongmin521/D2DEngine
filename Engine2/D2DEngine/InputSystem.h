@@ -33,6 +33,12 @@ public:
 			_right = false;
 			_middle = false;
 		}
+
+		MathHelper::Vector2F GetMousePos() const {
+			float x = _x;
+			float y = _y;
+			return { x, y };
+		} //const라 형변환도안된다? 그럼 옮겨담아야하나?
 	};
 
 	void InitMouse();

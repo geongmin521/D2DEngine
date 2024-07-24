@@ -19,6 +19,7 @@ public:
 	void DrawTextFunc(std::wstring text,int x, int y);
 	void DrawBox(int left, int top, int right, int bottom);
 	void DrawAABB(AABB aabb);
+	void DrawLine(MathHelper::Vector2F start, MathHelper::Vector2F end);
 public:
 	 //왜 못찾지? //이거 스태틱안되나본데?
 	ID2D1Factory* m_pD2DFactory;			// D2D 개체 인터페이스 포인터 변수

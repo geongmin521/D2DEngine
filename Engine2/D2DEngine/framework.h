@@ -22,4 +22,5 @@
 #include <tuple>
 #include <random>
 
+#include "MathHelper.h"
 //#include <dxgi.h>

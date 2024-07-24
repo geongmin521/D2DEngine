@@ -77,3 +77,20 @@ MissileFSM::MissileFSM(FiniteStateMachine* pOwner, std::string Name) : FSMState(
 MissileFSM::~MissileFSM()
 {
 }
+
+MissileShared::MissileShared(FiniteStateMachine* pOwner, std::string Name) : MissileFSM(pOwner, Name) 
+{
+	pOwner->SetSharedTransition(this);
+}
+
+void MissileShared::EnterState()
+{
+}
+
+void MissileShared::Update(float DeltaTime)
+{
+}
+
+void MissileShared::ExitState()
+{
+}

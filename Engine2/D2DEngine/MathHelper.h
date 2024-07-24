@@ -120,7 +120,7 @@ namespace MathHelper
 			return (this->x * this->x + this->y * this->y);
 		}
 
-		Vector2F& Normalize() const
+		Vector2F& Normalize() const //반환하지말고 본인에 적용하는게 더 편할려나?
 		{
 			float length = Length();
 

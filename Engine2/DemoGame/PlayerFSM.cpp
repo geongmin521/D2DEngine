@@ -1,12 +1,14 @@
 #include "../D2DEngine/pch.h"
 #include "PlayerFSM.h"
 #include "Character.h"
+#include "SpiderWeb.h"
 #include "../D2DEngine/FiniteStateMachine.h"
 #include "../D2DEngine/GameObject.h"
 #include "../D2DEngine/Animation.h"
 #include "../D2DEngine/Movement.h"
 #include "../D2DEngine/InputSystem.h"
 #include "../D2DEngine/RigidBody.h"
+#include "../D2DEngine/Transform.h"
 
 //0번 idle
 //1번 run?
@@ -36,14 +38,7 @@ void PlayerFSM::EnterState() //상속받은 모든 클래스들이 공통적인 부분을 실행했으
 
 void PlayerFSM::Update(float DeltaTime)
 {
-	if (character->alive == false)
-	{
-		m_pOwner->SetNextState("Die"); //어떠한 상태라도 공중에 있으면 점프상태로
-	}
-	if (character->isground == false)
-	{
-		m_pOwner->SetNextState("Jump"); //어떠한 상태라도 공중에 있으면 점프상태로
-	}
+
 }
 
 void PlayerFSM::ExitState()
@@ -94,7 +89,7 @@ void PlayerRun::Update(float DeltaTime)
 {
 	__super::Update(DeltaTime);
 	ani->SetMirror(move->GetVelocity().x > 0 ? false : true);
-	if (!inputSystem->isKey(VK_LEFT) && !inputSystem->isKey(VK_RIGHT))
+	if (!inputSystem->isKey('A') && !inputSystem->isKey('D'))
 	{
 		m_pOwner->SetNextState("Idle");
 	}
@@ -125,7 +120,6 @@ void PlayerDie::ExitState()
 
 void PlayerIdle::EnterState()
 {
-
 	ani->SetAnimation(0, move->GetVelocity().x > 0 ? false : true);
 }
 
@@ -136,7 +130,7 @@ void PlayerIdle::Update(float DeltaTime)
 	{
 		m_pOwner->SetNextState("Run");
 	}		
-	if (inputSystem->isKeyDown('A'))
+	if (inputSystem->isKeyDown('F'))
 	{
 		m_pOwner->SetNextState("Attack");
 	}
@@ -176,4 +170,72 @@ void PlayerJump::Update(float DeltaTime)
 void PlayerJump::ExitState()
 {
 
+}
+
+PlayerShared::PlayerShared(FiniteStateMachine* pOwner, std::string Name) : PlayerFSM(pOwner, Name)
+{
+	pOwner->SetSharedTransition(this);
+}
+
+void PlayerShared::EnterState()
+{
+}
+
+void PlayerShared::Update(float DeltaTime)
+{
+	if (character->alive == false)
+	{
+		m_pOwner->SetNextState("Die"); //어떠한 상태라도 공중에 있으면 점프상태로
+	}
+	if (character->isground == false)
+	{
+		m_pOwner->SetNextState("Jump"); //어떠한 상태라도 공중에 있으면 점프상태로
+	}
+	if (character->web->getAttach() == true)
+	{
+		m_pOwner->SetNextState("Hanging"); //어떠한 상태라도 공중에 있으면 점프상태로
+	}
+}
+
+void PlayerShared::ExitState()
+{
+}
+
+void PlayerHanging::EnterState()
+{
+	//부모설정을 웹에서하지말고 여기서하자 //스케일차이도 상관있나?
+	character->m_Transform->SetRelativeLocation({ 0,100 }); //왜 절대좌표가 엄청나게 늘어나는데? 
+	move->m_PrevRelativeLocation ={ 0,0 }; //왜 절대좌표가 엄청나게 늘어나는데? 
+	//부모위치는인정인데 왜지?
+	character->m_Transform->SetParent(character->web->m_Transform); //부모설정하기 
+	character->GetComponent<RigidBody>()->setActive(false); //해줘야하는 설정이 엄청많구만
+	character->m_Transform->Update(1);
+	//역시 부모로 설정하면서 문제가 많아지는구만.. 
+	//상대좌표가 월드좌표였는데 이걸 수정해줘야지
+	character->ishanging = true;
+}
+
+void PlayerHanging::Update(float DeltaTime)
+{
+	//스파이더웹과의 거리가 정해진 거리가될때까지 이동하기
+	//또한 좌우 이동시 웹의 회전으로만 처리하기./.
+
+	if (inputSystem->isKey('D')) //키입력만 못받게하면되나? //회전운동으로 벽을 뚫지않게해야하는데 흠.. 
+	{
+		character->web->m_Transform->AddRelativeRotation(SwingSpeed * DeltaTime);
+	}
+	if (inputSystem->isKey('A'))
+	{
+		character->web->m_Transform->AddRelativeRotation(-SwingSpeed * DeltaTime);
+	}
+	//플레이어 입력 즉 커멘드가 덮어씌워져야하는데 이걸 커맨드 패턴으로 처리하는게 제일 깔끔하지만
+	//시간이 없기때문에 bool 값하나로 관리할까 고민중.. 
+}
+
+void PlayerHanging::ExitState()
+{
+	//아 근데 부모를 썼다가 끊으면 위치 문제가좀 생길거같은데 어떻게 초기화를 잘해주면 괜찮아질려나? 
+	character->m_Transform->SetParent(nullptr); //부모끊어주기
+	character->m_Transform->SetRelativeLocation(character->GetWorldLocation());
+	character->ishanging = false;
 }

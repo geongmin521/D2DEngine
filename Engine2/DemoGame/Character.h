@@ -2,7 +2,7 @@
 #include "../D2DEngine/GameObject.h"
 #include "../D2DEngine/IColliderNotify.h" 
 
-
+class SpiderWeb;
 class Character :
     public GameObject, public IColliderNotify
 {
@@ -23,5 +23,7 @@ public:
 	bool alive = true;
 	bool isBlock[2];
 	bool isground = false;
+	bool ishanging = false;
+	SpiderWeb* web;
 };
 

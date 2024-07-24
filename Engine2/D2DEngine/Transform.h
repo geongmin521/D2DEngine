@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "MathHelper.h"
+
 
 class Transform : public Component
 {
@@ -34,4 +34,6 @@ public:
 	void SetRelativeLocation(const MathHelper::Vector2F& Location);
 	void AddRelativeLocation(float x, float y);
 	const MathHelper::Vector2F& GetRelativeLocation() { return m_RelativeLocation; }
+
+	std::wstring ShowPos();
 };

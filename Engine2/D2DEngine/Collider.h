@@ -12,6 +12,7 @@ enum class CollisionLayer //레이어로 구분해서 필요한 애들만 충돌검사를 하도록 만
 {
 	Platform,
 	Player,
+	Web,
 	Missile,
 	Default
 };

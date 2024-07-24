@@ -9,6 +9,7 @@ GameObject::GameObject()
 	m_Transform = new Transform(); //모든 게임오브젝트는 트랜스폼을 들고있다.
 	AddComponent(m_Transform);
 	m_BoundBox = new AABB();
+	isActive = true;
 }
 
 GameObject::~GameObject() 
@@ -22,6 +23,8 @@ GameObject::~GameObject()
 
 void GameObject::Update(float deltaTime) 
 {
+	if (!isActive)
+		return;
 	for (auto& pComponent : m_OwnedComponents)
 		//컴포넌트에 정렬 번호를 쥐어주고 우선순위큐로 관리하면 컴포넌트들을 정해진 순서대로 호출가능
 	{
@@ -35,6 +38,8 @@ void GameObject::Update(float deltaTime)
 
 void GameObject::Render(ID2D1HwndRenderTarget* pRenderTarget)
 {
+	if (!isActive)
+		return;
 	for (auto& pComponent : m_OwnedComponents) 
 	{	
 		pComponent->Render(pRenderTarget);

@@ -18,6 +18,7 @@ Missile::Missile()
 	fsm->CreateState<MissileIdle>("Idle");
 	fsm->CreateState<MissileAttack>("Attack");
 	fsm->CreateState<MissileChase>("Chase");
+	fsm->CreateState<MissileShared>("Chase");
 	fsm->SetNextState("Idle");
 	AddComponent(new Movement(m_Transform));
 	m_Transform->SetRelativeLocation({0,300});

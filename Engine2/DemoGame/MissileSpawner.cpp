@@ -6,7 +6,7 @@
 
 MissileSpawner::MissileSpawner()
 {
-	spwanTimer = 1;
+	spwanTimer = 3;
 }
 
 MissileSpawner::~MissileSpawner()

@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Transform.h"
 
-
 Transform::Transform()
 {
 	m_RelativeTransform = m_WorldTransform = D2D1::Matrix3x2F::Identity();
@@ -46,6 +45,13 @@ void Transform::SetRelativeLocation(const MathHelper::Vector2F& Location) //누군
 void Transform::AddRelativeLocation(float x, float y)
 {
 	m_RelativeLocation = { m_RelativeLocation.x + x,m_RelativeLocation.y + y };
+}
+
+std::wstring Transform::ShowPos()
+{
+	
+	return L"로컬좌표: " + std::to_wstring(m_RelativeLocation.x) + L"  " + std::to_wstring(m_RelativeLocation.y)
+		+  L"절대좌표: " + std::to_wstring(GetWorldLocation().x) + L"  " + std::to_wstring(GetWorldLocation().y);
 }
 
 

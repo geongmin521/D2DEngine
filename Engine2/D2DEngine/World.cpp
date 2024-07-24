@@ -29,6 +29,8 @@ void World::Update(float deltaTime)
 {
 	for (auto& obj : m_GameObjects)
 	{
+		if (!obj->isActive)
+			continue;
 		obj->Update(deltaTime);
 	}
 	
@@ -40,6 +42,8 @@ void World::Render(ID2D1HwndRenderTarget* pRenderTarget)
 {
 	for (auto& obj : m_GameObjects) 
 	{		
+		if (!obj->isActive)
+			continue;
 		if (this->m_pCullingBound->CheckIntersect(obj->GetBoundBox())) 
 		{
 			obj->Render(pRenderTarget);

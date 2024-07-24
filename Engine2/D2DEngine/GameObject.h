@@ -15,7 +15,7 @@ class GameObject
 public:
 	GameObject();
 	virtual ~GameObject();
-
+	bool isActive;
 	std::vector<Component*> m_OwnedComponents;	// 소유한 컴포넌트들
 	Transform* m_Transform = nullptr;				
 	World* m_pOwner = nullptr;					// 이 게임 오브젝트가 속한 월드
