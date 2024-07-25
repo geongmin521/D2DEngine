@@ -48,7 +48,7 @@ const float TimeManager::GetFrameRate()
 {
 	if (_DeltaTime == 0) return 0;
 
-	return 1;//ceil(((1.0f / _DeltaTime)));//ceil 이거 어디있는지 모르겠으니 일단 쓰지마
+	return ceil(((1.0f / _DeltaTime)));
 }
 
 const float TimeManager::GetDeltaTime()

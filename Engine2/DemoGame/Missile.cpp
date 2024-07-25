@@ -2,6 +2,7 @@
 #include "Missile.h"
 #include "MissileFSM.h"
 #include "../D2DEngine/FiniteStateMachine.h"
+#include "../D2DEngine/World.h"
 #include "../D2DEngine/Animation.h"
 #include "../D2DEngine/Movement.h"
 #include "../D2DEngine/Transform.h"
@@ -31,10 +32,15 @@ Missile::~Missile()
 
 void Missile::Update(float deltaTime)
 {
-	__super::Update(deltaTime);//아 얘는 또 월드의 통제를 안받으니까.. 콜라이더 계산을 못하는구나.. 싱글톤으로 매니저를 빨리만들까? 
+	__super::Update(deltaTime);
 	distance = sqrt(
 		pow((m_Transform->GetWorldLocation().x - target->GetWorldLocation().x), 2) +
 		pow((m_Transform->GetWorldLocation().y - target->GetWorldLocation().y), 2));
+
+	if (m_Transform->GetWorldLocation().y < 0|| m_Transform->GetWorldLocation().y > WinSizeY) //화면밖이면 지우기
+	{
+		m_pOwner->DeleteGameObject(this);
+	}
 }
 
 void Missile::Render(ID2D1HwndRenderTarget* pRenderTarget)

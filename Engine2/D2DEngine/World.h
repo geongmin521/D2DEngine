@@ -11,7 +11,8 @@ public:
 	World();
 	virtual ~World();	
 	std::list<GameObject*> m_GameObjects;
-	 //이것도 겹칠필요없으니까 set으로 이것도좀더 공부해야하긴해야하는데.. 
+	std::list<GameObject*> m_Remove;
+	
 	AABB* m_pCullingBound = nullptr; 
 	AABB* m_CullingBoundDefault;	
 public:	
@@ -19,7 +20,7 @@ public:
 	void Render(ID2D1HwndRenderTarget* pRenderTarget);
 	void Clear();
 	void SetCullingBound(AABB* pBound) { m_pCullingBound = pBound; }
-	// 템플릿 함수로 GameObject를 생성한다. 템플릿때문이였나? 
+
 	template<typename T>
 	T* CreateGameObject()
 	{
@@ -33,7 +34,7 @@ public:
 			if ((*it)->renderOrder > newObject->renderOrder)
 			{
 				m_GameObjects.insert(it, newObject); 
-				return newObject; //넣었으면 종료
+				return newObject; 
 			}			
 		}
 		
@@ -41,12 +42,8 @@ public:
 	
 		return newObject;
 	}
-	
-	void DeleteGameObject(GameObject* gameObject)
-	{
-		GameObject* del = gameObject; //음 지우기전에 담고있다가 지워야할듯?
-		m_GameObjects.erase(remove(m_GameObjects.begin(), m_GameObjects.end(), gameObject), m_GameObjects.end());
-		delete del; //먼저 오브젝트 목록에서 지우고 진짜 삭제하기.. 
-	}
+	void removeElements(std::list<GameObject*>& origin, const std::list<GameObject*>& remove);
+	void DeleteGameObject(GameObject* gameObject);
+
 };
 

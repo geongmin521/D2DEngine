@@ -11,6 +11,7 @@ private:
 public:
 	static CollisionManager* GetInstance();
 	void CollisionCheck();
+	void EraseCollider(Collider* col);
 	void pushCollider(Collider* col) { m_Colliders.push_back(col); }
 };
 

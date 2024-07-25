@@ -22,7 +22,7 @@ CollisionManager* CollisionManager::GetInstance()
 
 void CollisionManager::CollisionCheck()
 {
-	for (int source = 0; source < m_Colliders.size(); source++)
+	for (int source = 0; source < m_Colliders.size(); source++) //충돌레이어를 만들어서 계산량줄이고 //어떤 레이어끼리만 충돌할지는 미리 만들어놓기
 	{
 		for (int target = source; target < m_Colliders.size(); target++)
 		{
@@ -31,8 +31,8 @@ void CollisionManager::CollisionCheck()
 			if (m_Colliders[source]->GetCollisionType() == CollisionType::Block &&
 				m_Colliders[target]->GetCollisionType() == CollisionType::Block)
 			{
-				m_Colliders[source]->ProcessBlock(m_Colliders[target]); //움직이지 않는 콜라이더는 또 어떻게 구분하지? 
-				m_Colliders[target]->ProcessBlock(m_Colliders[source]); //남들이 유니티랑 비슷한 구조로 짠다는거는 구조를 보고 예측해봤다는건가? 
+				m_Colliders[source]->ProcessBlock(m_Colliders[target]); 
+				m_Colliders[target]->ProcessBlock(m_Colliders[source]); 
 			}
 			else
 			{
@@ -41,4 +41,10 @@ void CollisionManager::CollisionCheck()
 			}
 		}
 	}
+}
+
+void CollisionManager::EraseCollider(Collider* remove)
+{
+	m_Colliders.erase(std::remove_if(m_Colliders.begin(), m_Colliders.end(),
+		[remove](auto x) -> bool { return x == remove; }), m_Colliders.end());
 }

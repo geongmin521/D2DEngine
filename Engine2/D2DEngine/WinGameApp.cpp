@@ -7,6 +7,10 @@
 #include "InputSystem.h"
 #include "World.h"
 
+#ifdef _DEBUG
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#endif
+
 WinGameApp::WinGameApp()
 {
 	m_pResourceManager = new ResourceManager;
@@ -27,6 +31,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_DESTROY:
 		PostQuitMessage(0);
+		break;
+	case WM_KEYDOWN:
+		inputSystem->UpdateKey();
+		break;
+	case WM_KEYUP:
+		inputSystem->UpdateKey();
 		break;
 	case WM_SETFOCUS:
 		timeManager->SetTimeScale(1); 

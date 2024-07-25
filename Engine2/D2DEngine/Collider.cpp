@@ -8,6 +8,11 @@ Collider::Collider()
 
 }
 
+Collider::~Collider()
+{
+	CollisionManager::GetInstance()->EraseCollider(this);
+}
+
 void Collider::ClearAndBackupCollideState()
 {
 }

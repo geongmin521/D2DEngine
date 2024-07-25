@@ -52,19 +52,20 @@ void InputSystem::UpdateKey()
 	HWND hWnd = GetFocus();
 	if (hWnd != nullptr) {
 		for (int i = 0; i < 256; i++) {
-			if (GetAsyncKeyState(i) & 0x8000) {
+			short keyState = GetAsyncKeyState(i);
+			if (keyState & 0x8000) { // 키가 눌린 상태
 				_isKeyDown[i] = true;
 				_isKeyUp[i] = false;
 				_isKey[i] = true;
 			}
-			else if (GetAsyncKeyState(i) & 0x8001) {
-				_isKeyDown[i] = false;
-				_isKeyUp[i] = false;
-				_isKey[i] = true;
-			}
-			else if (GetAsyncKeyState(i) & 0x0001) {
+			else if (keyState & 0x0001) { // 키가 떼어진 상태
 				_isKeyDown[i] = false;
 				_isKeyUp[i] = true;
+				_isKey[i] = false;
+			}
+			else { // 키가 눌리지 않은 상태
+				_isKeyDown[i] = false;
+				_isKeyUp[i] = false;
 				_isKey[i] = false;
 			}
 		}

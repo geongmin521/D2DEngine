@@ -24,7 +24,7 @@ void FiniteStateMachine::Update(float DeltaTime)
 	}
 	else
 	{
-		m_pSharedTransition->Update(DeltaTime); //모든 fsm에 공유전이를 만들어줘야하는구나. 흠.. 
+		m_pSharedTransition->Update(DeltaTime);//공유전이 먼저 돌리기
 		m_pCurrState->Update(DeltaTime);
 	}
 }
@@ -32,7 +32,7 @@ void FiniteStateMachine::Update(float DeltaTime)
 void FiniteStateMachine::SetNextState(std::string stateName)
 {
 	auto it = m_pStates.find(stateName);
-	if (it != m_pStates.end())
+	if (it != m_pStates.end() && it->second != m_pCurrState) //현재상태와 같지않아야함
 	{
 		m_pNextState = it->second;
 	}

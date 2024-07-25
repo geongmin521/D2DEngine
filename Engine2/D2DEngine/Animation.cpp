@@ -29,13 +29,13 @@ void Animation::LoadAnimationAsset(const std::wstring strFilePath)
 
 
 
-void Animation::Update(float fTimeElapsed)	//모든 컴포넌트에 안에 구현방식이있을수있나? 없지.. 
+void Animation::Update(float fTimeElapsed)	
 {
 	__super::Update(fTimeElapsed);
 
 	assert(m_pAnimationAsset != nullptr);
 
-	if (m_bMirror) //이것도 공통 렌더로 빼자.. 그리고 업데이트에서 처리하지말고.. set에서 하고시픈데.. 업데이트에서 여기만 다르게 적용되면되겠구나.. 
+	if (m_bMirror) 
 	{
 		m_ImageTransform = D2D1::Matrix3x2F::Scale(-1.0f, 1.0f, D2D1::Point2F(0, 0)) *
 			D2D1::Matrix3x2F::Translation(m_DstRect.right - m_DstRect.left, 0); //아니면 이게 처리가 안되서그런가?
@@ -43,7 +43,7 @@ void Animation::Update(float fTimeElapsed)	//모든 컴포넌트에 안에 구현방식이있을
 
 	if (m_pAnimationInfo == nullptr)
 		return;
-	if (isLoop == false && m_bAnimationEnd == true) //이거때매 위에 미러 계산이안되었던듯? 근데 이미 업데이트에서할텐데??
+	if (isLoop == false && m_bAnimationEnd == true) 
 		return;
 	const FRAME_INFO& Frame = m_pAnimationInfo->Frames[m_FrameIndexCurr];
 	size_t MaxFrameCount = m_pAnimationInfo->Frames.size();
@@ -61,9 +61,9 @@ void Animation::Update(float fTimeElapsed)	//모든 컴포넌트에 안에 구현방식이있을
 	{
 		m_FrameIndexCurr++;
 		m_FrameTime = 0;
-		if (m_pAnimationInfo->Frames.size() <= m_FrameIndexCurr)//루프가 아니면 다르게 처리해야할거같은데
+		if (m_pAnimationInfo->Frames.size() <= m_FrameIndexCurr)
 		{
-			m_FrameIndexCurr = 0; //루프일때만 최대에서 다음으로 넣어주기.. 
+			m_FrameIndexCurr = 0; 
 		}
 	}
 
@@ -73,13 +73,13 @@ void Animation::Update(float fTimeElapsed)	//모든 컴포넌트에 안에 구현방식이있을
 	
 }
 
-void Animation::Render(ID2D1RenderTarget* pRenderTarget) //렌더를 하나로 묶어놓자고했었는데.. 어떻게 할지 감이안오네..  //일단 모르겠으니 할거부터하자.. 
+void Animation::Render(ID2D1RenderTarget* pRenderTarget)
 {
 	if (m_pAnimationInfo == nullptr)
 		return;
 	__super::Render(pRenderTarget);
 	
-	pRenderTarget->DrawBitmap(m_pBitmap, m_DstRect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, m_SrcRect); //그릴때만 옮겨주는게 아니라 애초에 시작위치의 포지션을 그렇게 옮겨야하는거아닌가? 
+	pRenderTarget->DrawBitmap(m_pBitmap, m_DstRect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, m_SrcRect);
 	pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 

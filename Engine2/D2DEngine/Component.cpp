@@ -14,7 +14,7 @@ Component::~Component()
 void Component::setActive(bool active)
 {
 	if (isActive == active)
-		return;//이미 같으면 리턴
+		return;
 	isActive = active;
 
 	if (active)

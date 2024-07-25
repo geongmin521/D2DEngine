@@ -25,7 +25,7 @@ class Collider
 {
 public:
 	Collider(); //추상클래스라도 생성자는 호출될때니까 여기서 월드한테 등록할수있게하면될듯?
-	virtual ~Collider() = default;
+	virtual ~Collider();
 
 protected:
 	CollisionType m_CollisionType;		// 컬리전 타입 (노컬리전,블럭, 오버랩)

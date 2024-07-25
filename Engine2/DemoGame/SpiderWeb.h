@@ -2,6 +2,7 @@
 #include "../D2DEngine/GameObject.h"
 #include "../D2DEngine/IColliderNotify.h"
 
+class Character;
 class SpiderWeb :public GameObject ,public IColliderNotify
 {
 private:
@@ -10,13 +11,12 @@ private:
 	
 	float Speed;
 	float MaxDistance;
-	bool attach = false;
+
 public:
-	Transform* player;
+	Character* player;
 	SpiderWeb();
 	~SpiderWeb();
 	void Fire(MathHelper::Vector2F dir);
-	bool getAttach() { return attach; }
 	virtual void Update(float deltaTime) override;
 	virtual void Render(ID2D1HwndRenderTarget* pRenderTarget) override;
 

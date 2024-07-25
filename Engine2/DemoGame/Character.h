@@ -8,7 +8,8 @@ class Character :
 {
 private:
 	float speed;
-	float Jumpspeed; float MoveY =0;
+	float Jumpspeed; 
+
 
 public:
 	Character();
@@ -21,9 +22,10 @@ public:
 	virtual void OnBeginOverlap (Collider* pOtherComponent) override;
 	virtual void OnEndOverlap	(Collider* pOtherComponent) override;
 	bool alive = true;
-	bool isBlock[2];
 	bool isground = false;
 	bool ishanging = false;
+	float MoveY = 0;
+
 	SpiderWeb* web;
 };
 

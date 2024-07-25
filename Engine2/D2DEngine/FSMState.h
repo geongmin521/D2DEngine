@@ -26,5 +26,3 @@ public:
 	virtual void Update(float DeltaTime) = 0; // 상태 일때 계속 실행할 내용, 전이 조건 검사 (Check Transition Condition) 도 같이 한다.
 	virtual void ExitState() = 0;	// 상태 탈출때 실행할 내용
 };
-
-//하나로 관리할수있지만 세부구현은 직접 만들어야하지? 순수가상이니까. 

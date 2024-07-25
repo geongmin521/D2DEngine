@@ -7,8 +7,6 @@ class MissileSpawner : public GameObject
 private:
 	float Timer;
 	float spwanTimer;
-	std::list<Missile*> missiles;
-	
 public:
 	Transform* target;
 	MissileSpawner();

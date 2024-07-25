@@ -14,14 +14,14 @@ Map::Map()
 	SetBoundBox(0, 0, size.width, size.height);
 	m_Transform->m_RelativeScale = { 3,2.4 };
 	m_Transform->m_RelativeLocation = { WinHalfSizeX, WinHalfSizeY };
-	LoadCollider(); //월드의 콜라이더에 넣어줘야하는데.. 이것도 나중에는 이벤트 시스템으로빼자...
+	LoadCollider();
 }
 
 Map::~Map()
 {
 }
 
-bool Map::LoadCollider() //맵에디터와 겹치는거같지만 다른점은 그냥편집을 위한 aabb와 boxcollider 생성에 있다. 
+bool Map::LoadCollider() //읽기부분이 좀 겹치는거같은데 어떻게 클래스로 빼보자
 {
 	std::wifstream file(L"..\\Data\\MapCollider.csv"); //읽기
 	if (!file.is_open()) {
@@ -54,7 +54,7 @@ bool Map::LoadCollider() //맵에디터와 겹치는거같지만 다른점은 그냥편집을 위한 aa
 			getline(wss, token, L',');
 			col->m_Extent.y = (float)_wtoi(token.c_str());
 		}
-		boxCols.push_back(new BoxCollider(col, CollisionType::Block,this,CollisionLayer::Platform)); //오 뭔가 잘되는거같은데?
+		boxCols.push_back(new BoxCollider(col, CollisionType::Block,this,CollisionLayer::Platform)); 
 	}
 	return true;
 }

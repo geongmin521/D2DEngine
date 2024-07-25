@@ -125,7 +125,7 @@ void PlayerIdle::EnterState()
 
 void PlayerIdle::Update(float DeltaTime)
 {
-	__super::Update(DeltaTime); //공유전이를 위해 업데이트만 모든상태가 부모를 호출?
+	__super::Update(DeltaTime); 
 	if(move->GetVelocity().x != 0)
 	{
 		m_pOwner->SetNextState("Run");
@@ -138,10 +138,12 @@ void PlayerIdle::Update(float DeltaTime)
 
 void PlayerIdle::ExitState() 
 {
+	//character->m_pOwner.de
 }
 
 void PlayerJump::EnterState()
 {
+	character->GetComponent<RigidBody>()->resetGravity();
 	ani->SetAnimation(2, move->GetVelocity().x > 0 ? false : true);
 	doublejump = true;
 	doublejumpTimer = 0.5; 
@@ -153,12 +155,8 @@ void PlayerJump::Update(float DeltaTime)
 	if (character->isground == true)
 	{
 		m_pOwner->SetNextState("Idle");
-		move->isGravity = false;
 	}
-	else
-	{
-		move->isGravity = true;
-	}
+
 	if (doublejump == true && inputSystem->isKeyDown(VK_SPACE)&& doublejumpTimer<0) 
 	{
 		character->GetComponent<RigidBody>()->resetGravity();
@@ -183,17 +181,17 @@ void PlayerShared::EnterState()
 
 void PlayerShared::Update(float DeltaTime)
 {
-	if (character->alive == false)
+	if (character->alive == false )
 	{
-		m_pOwner->SetNextState("Die"); //어떠한 상태라도 공중에 있으면 점프상태로
+		m_pOwner->SetNextState("Die"); 
 	}
-	if (character->isground == false)
+	if (character->isground == false && character->ishanging == false)
 	{
-		m_pOwner->SetNextState("Jump"); //어떠한 상태라도 공중에 있으면 점프상태로
+		m_pOwner->SetNextState("Jump"); 
 	}
-	if (character->web->getAttach() == true)
+	if (character->ishanging == true)
 	{
-		m_pOwner->SetNextState("Hanging"); //어떠한 상태라도 공중에 있으면 점프상태로
+		m_pOwner->SetNextState("Hanging"); 
 	}
 }
 
@@ -203,39 +201,50 @@ void PlayerShared::ExitState()
 
 void PlayerHanging::EnterState()
 {
-	//부모설정을 웹에서하지말고 여기서하자 //스케일차이도 상관있나?
-	character->m_Transform->SetRelativeLocation({ 0,100 }); //왜 절대좌표가 엄청나게 늘어나는데? 
-	move->m_PrevRelativeLocation ={ 0,0 }; //왜 절대좌표가 엄청나게 늘어나는데? 
-	//부모위치는인정인데 왜지?
+	character->m_Transform->SetRelativeLocation({ 0,200 }); //위치를 거미줄 밑으로 초기화
+	move->m_PrevRelativeLocation ={ 0,0 };
 	character->m_Transform->SetParent(character->web->m_Transform); //부모설정하기 
-	character->GetComponent<RigidBody>()->setActive(false); //해줘야하는 설정이 엄청많구만
+	character->GetComponent<RigidBody>()->setActive(false); 
+	character->MoveY =0; 
+	SwingSpeed = 50;
+
 	character->m_Transform->Update(1);
-	//역시 부모로 설정하면서 문제가 많아지는구만.. 
-	//상대좌표가 월드좌표였는데 이걸 수정해줘야지
-	character->ishanging = true;
+	ani->SetAnimation(2, move->GetVelocity().x > 0 ? false : true);
 }
 
 void PlayerHanging::Update(float DeltaTime)
 {
-	//스파이더웹과의 거리가 정해진 거리가될때까지 이동하기
-	//또한 좌우 이동시 웹의 회전으로만 처리하기./.
-
-	if (inputSystem->isKey('D')) //키입력만 못받게하면되나? //회전운동으로 벽을 뚫지않게해야하는데 흠.. 
+	if (character->ishanging == false)
 	{
-		character->web->m_Transform->AddRelativeRotation(SwingSpeed * DeltaTime);
+		m_pOwner->SetNextState("Jump");
 	}
-	if (inputSystem->isKey('A'))
+	float sin = std::sinf(timer);
+	if (inputSystem->isKey('D'))
 	{
-		character->web->m_Transform->AddRelativeRotation(-SwingSpeed * DeltaTime);
+		if (sin < 0)
+			SwingSpeed += DeltaTime * 20;
 	}
-	//플레이어 입력 즉 커멘드가 덮어씌워져야하는데 이걸 커맨드 패턴으로 처리하는게 제일 깔끔하지만
-	//시간이 없기때문에 bool 값하나로 관리할까 고민중.. 
+	else if (inputSystem->isKey('A'))
+	{
+		if(sin > 0)
+			SwingSpeed += DeltaTime * 20;
+	}
+	else
+	{
+		if(SwingSpeed > 0)
+			SwingSpeed -= DeltaTime * 10;
+	}
+	move->m_PrevRelativeLocation = character->m_Transform->GetWorldLocation();
+	timer += DeltaTime;
+	float angleChange = sin * 0.5f * SwingSpeed;
+	character->web->m_Transform->SetRelativeRotation(angleChange); 
 }
 
 void PlayerHanging::ExitState()
 {
-	//아 근데 부모를 썼다가 끊으면 위치 문제가좀 생길거같은데 어떻게 초기화를 잘해주면 괜찮아질려나? 
-	character->m_Transform->SetParent(nullptr); //부모끊어주기
+	character->GetComponent<RigidBody>()->setActive(true);	
+	character->m_Transform->SetParent(nullptr);				//부모끊어주기
 	character->m_Transform->SetRelativeLocation(character->GetWorldLocation());
+	character->m_Transform->SetRelativeRotation(0);
 	character->ishanging = false;
 }

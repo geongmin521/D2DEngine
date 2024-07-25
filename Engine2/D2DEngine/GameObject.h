@@ -1,10 +1,4 @@
 #pragma once
-
-//#include <vector>
-//#include <d2d1_1.h> //헤더파일설계를 어떻게 해야하나.. 
-//#include "Transform.h"
-//#include "AABB.h"
-
 class Component;
 class World;
 class Transform;

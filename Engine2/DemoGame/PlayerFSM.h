@@ -42,8 +42,10 @@ private:
 class PlayerHanging : public PlayerFSM
 {
 public:
-	float SwingSpeed = 20;
+	float SwingSpeed = 50;
 	float Distance = 300;
+	float timer = 0;
+	//float SwingTimer = 300;
 	PlayerHanging(FiniteStateMachine* pOwner, std::string Name) : PlayerFSM(pOwner, Name) {};
 private:
 	virtual void EnterState() override;
