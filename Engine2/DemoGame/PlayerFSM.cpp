@@ -184,14 +184,17 @@ void PlayerShared::Update(float DeltaTime)
 	if (character->alive == false )
 	{
 		m_pOwner->SetNextState("Die"); 
+		return;
 	}
 	if (character->isground == false && character->ishanging == false)
 	{
 		m_pOwner->SetNextState("Jump"); 
+		return;
 	}
 	if (character->ishanging == true)
 	{
 		m_pOwner->SetNextState("Hanging"); 
+		return;
 	}
 }
 
