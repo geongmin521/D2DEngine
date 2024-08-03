@@ -128,35 +128,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ArrowTower.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Character.h" />
     <ClInclude Include="DemoGame.h" />
     <ClInclude Include="DemoGameApp.h" />
+    <ClInclude Include="EnemyBase.h" />
     <ClInclude Include="Map.h" />
-    <ClInclude Include="MapEditer.h" />
-    <ClInclude Include="MissileSpawner.h" />
-    <ClInclude Include="Missile.h" />
-    <ClInclude Include="MissileFSM.h" />
-    <ClInclude Include="PlayerFSM.h" />
-    <ClInclude Include="SpiderWeb.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TowerBase.h" />
+    <ClInclude Include="TowerFsm.h" />
+    <ClInclude Include="Vampire.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArrowTower.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Character.cpp" />
     <ClCompile Include="DemoGame.cpp" />
     <ClCompile Include="DemoGameApp.cpp" />
+    <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="MapEditer.cpp" />
-    <ClCompile Include="MissileSpawner.cpp" />
-    <ClCompile Include="Missile.cpp" />
-    <ClCompile Include="MissileFSM.cpp" />
-    <ClCompile Include="PlayerFSM.cpp" />
-    <ClCompile Include="SpiderWeb.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="DemoGame.ico" />
-    <Image Include="small.ico" />
+    <ClCompile Include="TowerBase.cpp" />
+    <ClCompile Include="TowerFSM.cpp" />
+    <ClCompile Include="Vampire.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\D2DEngine\D2DEngine.vcxproj">

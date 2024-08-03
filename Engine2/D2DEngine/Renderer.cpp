@@ -12,46 +12,46 @@ Renderer::Renderer(const std::wstring strFilePath)
 Renderer::~Renderer()
 {
 	/*
-	if (m_pBitmap)
+	if (Bitmap)
 	{
-		m_pBitmap->Release();
-		m_pBitmap = nullptr;
+		Bitmap->Release();
+		Bitmap = nullptr;
 	}
 	*/
-	if (m_pBitmap)
+	if (Bitmap)
 	{
-		ResourceManager::pInstance->ReleaseD2DBitmap(m_strBitmapFilePath);
-		m_pBitmap = nullptr;
+		ResourceManager::Instance->ReleaseD2DBitmap(strBitmapFilePath);
+		Bitmap = nullptr;
 	}
 }
 
 void Renderer::Update(float deltaTime)
 {
-	if (m_bMirror) 
+	if (mirror) 
 	{
-		m_ImageTransform = D2D1::Matrix3x2F::Scale(-1.0f, 1.0f, D2D1::Point2F(0, 0)) *
+		imageTransform = D2D1::Matrix3x2F::Scale(-1.0f, 1.0f, D2D1::Point2F(0, 0)) *
 			D2D1::Matrix3x2F::Translation(-CenterX, CenterY); 
 	}
 	else
 	{
-		m_ImageTransform = D2D1::Matrix3x2F::Scale(1.0f, 1.0f, D2D1::Point2F(0, 0)) * 
+		imageTransform = D2D1::Matrix3x2F::Scale(1.0f, 1.0f, D2D1::Point2F(0, 0)) * 
 			D2D1::Matrix3x2F::Translation(CenterX, CenterY);
 	}
 }
 
 void Renderer::Render(ID2D1RenderTarget* pRenderTarget) //어디그릴지에 대한 계산은 여기서 통일하기
 {
-	float CenterX = -(m_DstRect.right - m_DstRect.left) / 2 * m_pOwner->m_Transform->m_RelativeScale.x;
-	float CenterY = -(m_DstRect.bottom - m_DstRect.top) / 2 * m_pOwner->m_Transform->m_RelativeScale.y;
+	float CenterX = -(DstRect.right - DstRect.left) / 2 * owner->m_Transform->relativeScale.x;
+	float CenterY = -(DstRect.bottom - DstRect.top) / 2 * owner->m_Transform->relativeScale.y;
 
-	D2D1_MATRIX_3X2_F Transform = m_ImageTransform * m_pOwner->m_Transform->m_WorldTransform 
-		* D2DRenderer::m_CameraTransform * D2D1::Matrix3x2F::Translation(CenterX, CenterY);
+	D2D1_MATRIX_3X2_F Transform = imageTransform * owner->m_Transform->worldTransform 
+		* D2DRenderer::cameraTransform * D2D1::Matrix3x2F::Translation(CenterX, CenterY);
 
 	pRenderTarget->SetTransform(Transform);
 }
 
 void Renderer::LoadD2DBitmap(const std::wstring strFilePath)
 {
-	ResourceManager::pInstance->CreateD2DBitmapFromFile(strFilePath, &m_pBitmap);
-	m_strBitmapFilePath = strFilePath;
+	ResourceManager::Instance->CreateD2DBitmapFromFile(strFilePath, &Bitmap);
+	strBitmapFilePath = strFilePath;
 }

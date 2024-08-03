@@ -10,10 +10,10 @@ Map::Map()
 {
 	renderOrder = -100;
 	AddComponent(new Bitmap(L"..\\Data\\map.png"));
-	D2D1_SIZE_F size = GetComponent<Bitmap>()->m_pBitmap->GetSize();
+	D2D1_SIZE_F size = GetComponent<Bitmap>()->Bitmap->GetSize();
 	SetBoundBox(0, 0, size.width, size.height);
-	m_Transform->m_RelativeScale = { 3,2.4 };
-	m_Transform->m_RelativeLocation = { WinHalfSizeX, WinHalfSizeY };
+	m_Transform->relativeScale = { 3,2.4 };
+	m_Transform->relativeLocation = { WinHalfSizeX, WinHalfSizeY };
 	LoadCollider();
 }
 
@@ -36,7 +36,7 @@ bool Map::LoadCollider() //읽기부분이 좀 겹치는거같은데 어떻게 클래스로 빼보자
 		std::wstringstream wss(line);
 		wss >> colliderCount;
 	}
-	//m_Animations[index].Frames.reserve(FrameCount);
+	//animations[index].Frames.reserve(FrameCount);
 	for (int j = 0; j < colliderCount; j++)
 	{
 		AABB* col = new AABB();
@@ -46,13 +46,13 @@ bool Map::LoadCollider() //읽기부분이 좀 겹치는거같은데 어떻게 클래스로 빼보자
 		std::wstring token;
 		{
 			getline(wss, token, L',');	// wss의 내용을 ,를 기준으로 문자열을 분리
-			col->m_Center.x = (float)_wtoi(token.c_str());
+			col->Center.x = (float)_wtoi(token.c_str());
 			getline(wss, token, L',');
-			col->m_Center.y = (float)_wtoi(token.c_str());
+			col->Center.y = (float)_wtoi(token.c_str());
 			getline(wss, token, L',');
-			col->m_Extent.x = (float)_wtoi(token.c_str());
+			col->Extent.x = (float)_wtoi(token.c_str());
 			getline(wss, token, L',');
-			col->m_Extent.y = (float)_wtoi(token.c_str());
+			col->Extent.y = (float)_wtoi(token.c_str());
 		}
 		boxCols.push_back(new BoxCollider(col, CollisionType::Block,this,CollisionLayer::Platform)); 
 	}

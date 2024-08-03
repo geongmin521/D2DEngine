@@ -16,7 +16,7 @@ D2DRenderer::~D2DRenderer()
 
 }
 
-D2D1_MATRIX_3X2_F D2DRenderer::m_CameraTransform = D2D1::Matrix3x2F::Identity();
+D2D1_MATRIX_3X2_F D2DRenderer::cameraTransform = D2D1::Matrix3x2F::Identity();
 D2DRenderer* D2DRenderer::inst = nullptr;
 
 D2DRenderer* D2DRenderer::GetInstance(HWND hWnd)
@@ -30,7 +30,7 @@ D2DRenderer* D2DRenderer::GetInstance(HWND hWnd)
 
 void D2DRenderer::Initialize(HWND hWnd) 
 {
-	m_hWnd = hWnd;
+	hWnd = hWnd;
 	HRESULT hr = S_OK;
 	// COM 사용 시작
 	hr = CoInitialize(NULL);
@@ -40,7 +40,7 @@ void D2DRenderer::Initialize(HWND hWnd)
 			이러한 리소스에는 Direct2D 및 DirectWrite 팩터리와
 			DirectWrite 텍스트 형식 개체(특정 글꼴 특성을 식별하는 데 사용됨)가 포함됩니다.
 		*/
-		hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pD2DFactory);
+		hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &D2DFactory);
 	}
 	if (SUCCEEDED(hr))
 	{
@@ -52,19 +52,19 @@ void D2DRenderer::Initialize(HWND hWnd)
 		RECT rc;
 		GetClientRect(hWnd, &rc);
 
-		m_ClientSize = D2D1::SizeU(
+		ClientSize = D2D1::SizeU(
 			rc.right - rc.left,
 			rc.bottom - rc.top);
 		// Create a Direct2D render target.
-		hr = m_pD2DFactory->CreateHwndRenderTarget(
+		hr = D2DFactory->CreateHwndRenderTarget(
 			D2D1::RenderTargetProperties(),
-			D2D1::HwndRenderTargetProperties(m_hWnd, m_ClientSize),
-			&m_pRenderTarget);
+			D2D1::HwndRenderTargetProperties(hWnd, ClientSize),
+			&RenderTarget);
 	}
 
 	if (SUCCEEDED(hr))
 	{
-		hr = m_pRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Black), &m_pBrush);
+		hr = RenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Black), &Brush);
 	}
 
 	if (SUCCEEDED(hr))
@@ -74,13 +74,13 @@ void D2DRenderer::Initialize(HWND hWnd)
 			CLSID_WICImagingFactory,
 			NULL,
 			CLSCTX_INPROC_SERVER,
-			IID_PPV_ARGS(&m_pWICFactory)
+			IID_PPV_ARGS(&WICFactory)
 		);
 	}	
 
 	if (SUCCEEDED(hr))
 	{
-		hr = m_pRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Black), &g_pBlackBrush);
+		hr = RenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Black), &blackBrush);
 	}
 
 	if (SUCCEEDED(hr))
@@ -88,13 +88,13 @@ void D2DRenderer::Initialize(HWND hWnd)
 		// DirectWrite 팩터리를 만듭니다.
 		hr = DWriteCreateFactory( 
 			DWRITE_FACTORY_TYPE_SHARED,
-			__uuidof(m_pDWriteFactory),
-			reinterpret_cast<IUnknown**>(&m_pDWriteFactory));
+			__uuidof(DWriteFactory),
+			reinterpret_cast<IUnknown**>(&DWriteFactory));
 	}
 	if (SUCCEEDED(hr))
 	{
 		// DirectWrite 텍스트 형식 개체를 만듭니다.
-		hr = m_pDWriteFactory->CreateTextFormat(
+		hr = DWriteFactory->CreateTextFormat(
 			L"Cooper", // FontName    제어판-모든제어판-항목-글꼴-클릭 으로 글꼴이름 확인가능
 			NULL,
 			DWRITE_FONT_WEIGHT_NORMAL,
@@ -102,74 +102,74 @@ void D2DRenderer::Initialize(HWND hWnd)
 			DWRITE_FONT_STRETCH_NORMAL,
 			50.0f,   // Font Size
 			L"", //locale
-			&m_pDWriteTextFormat
+			&DWriteTextFormat
 		);
 		// 텍스트를 수평 및 수직으로 중앙에 맞춥니다.
-		m_pDWriteTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
-		m_pDWriteTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+		DWriteTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
+		DWriteTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 	}
 
 	// VRAM 정보얻기 위한 개체 생성
 	if (SUCCEEDED(hr))
 	{
 		// Create DXGI factory
-		hr = CreateDXGIFactory1(__uuidof(IDXGIFactory4), (void**)&m_pDXGIFactory); 
+		hr = CreateDXGIFactory1(__uuidof(IDXGIFactory4), (void**)&DXGIFactory); 
 	}
 	if (SUCCEEDED(hr))
 	{
-		m_pDXGIFactory->EnumAdapters(0, reinterpret_cast<IDXGIAdapter**>(&m_pDXGIAdapter));
+		DXGIFactory->EnumAdapters(0, reinterpret_cast<IDXGIAdapter**>(&DXGIAdapter));
 	}
 
 }
 
 void D2DRenderer::Uninitialize()
 {
-	SAFE_RELEASE(m_pBrush);
-	SAFE_RELEASE(m_pRenderTarget);
-	SAFE_RELEASE(m_pD2DFactory);
-	SAFE_RELEASE(m_pWICFactory);
-	SAFE_RELEASE(m_pDWriteFactory);
-	SAFE_RELEASE(m_pDWriteTextFormat);
-	SAFE_RELEASE(m_pDXGIFactory);
-	SAFE_RELEASE(m_pDXGIAdapter);
-	SAFE_RELEASE(g_pBlackBrush);
+	SAFE_RELEASE(Brush);
+	SAFE_RELEASE(RenderTarget);
+	SAFE_RELEASE(D2DFactory);
+	SAFE_RELEASE(WICFactory);
+	SAFE_RELEASE(DWriteFactory);
+	SAFE_RELEASE(DWriteTextFormat);
+	SAFE_RELEASE(DXGIFactory);
+	SAFE_RELEASE(DXGIAdapter);
+	SAFE_RELEASE(blackBrush);
 	CoUninitialize();
 }
 
 size_t D2DRenderer::GetUsedVRAM()
 {
 	DXGI_QUERY_VIDEO_MEMORY_INFO videoMemoryInfo;
-	m_pDXGIAdapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &videoMemoryInfo);
+	DXGIAdapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &videoMemoryInfo);
 	return videoMemoryInfo.CurrentUsage / 1024 / 1024;
 }
 
 void D2DRenderer::DrawTextFunc(std::wstring text,int x,int y)
 {
-	D2D1_SIZE_F size = m_pRenderTarget->GetSize();
+	D2D1_SIZE_F size = RenderTarget->GetSize();
 
-	m_pRenderTarget->DrawText(
+	RenderTarget->DrawText(
 		text.c_str(),	
 		text.size(),
-		m_pDWriteTextFormat,
+		DWriteTextFormat,
 		D2D1::RectF(x, y, size.width + x, size.height + y),
-		m_pBrush
+		Brush
 	);
 }
 
 void D2DRenderer::DrawBox(int left, int top, int right, int bottom)
 {
-	m_pRenderTarget->DrawRectangle(
-		D2D1::RectF(left, top, right, bottom), g_pBlackBrush);
+	RenderTarget->DrawRectangle(
+		D2D1::RectF(left, top, right, bottom), blackBrush);
 }
 
 void D2DRenderer::DrawLine(MathHelper::Vector2F start, MathHelper::Vector2F end)
 {
-	m_pRenderTarget->DrawLine(
-		{ start.x,start.y }, { end.x,end.y}, g_pBlackBrush);
+	RenderTarget->DrawLine(
+		{ start.x,start.y }, { end.x,end.y}, blackBrush);
 }
 
 void D2DRenderer::DrawAABB(AABB aabb)
 {
-	m_pRenderTarget->DrawRectangle(
-		D2D1::RectF(aabb.GetMinX(), aabb.GetMinY(), aabb.GetMaxX(), aabb.GetMaxY()), g_pBlackBrush);
+	RenderTarget->DrawRectangle(
+		D2D1::RectF(aabb.GetMinX(), aabb.GetMinY(), aabb.GetMaxX(), aabb.GetMaxY()), blackBrush);
 }

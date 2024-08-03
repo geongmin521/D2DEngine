@@ -10,7 +10,7 @@ public:
 	virtual ~CameraScene();
 	virtual void Update(float deltaTime);
 	float moveSpeed;
-	AABB* m_ViewBoundBox; //AABB도 어디 한군데다가 몰아놔야하는데.. 
+	AABB* viewBoundBox; //AABB도 어디 한군데다가 몰아놔야하는데.. 
 
 };
 

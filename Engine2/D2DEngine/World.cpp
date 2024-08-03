@@ -11,10 +11,8 @@
 
 World::World()
 {
-	float width = 640;
-	float height = 480;
 	m_CullingBoundDefault = new AABB;
-	m_CullingBoundDefault->SetExtent(width/2, height/2);
+	m_CullingBoundDefault->SetExtent(WinSizeX /2, WinSizeY /2);
 	m_CullingBoundDefault->SetCenter(0,0);
 	SetCullingBound(m_CullingBoundDefault);	
 }
@@ -57,13 +55,13 @@ void World::Clear()
 	m_GameObjects.clear();
 }
 
-void World::removeElements(std::list<GameObject*>& origin, const std::list<GameObject*>& remove) {
+void World::removeElements(std::list<GameObject*>& origin, const std::list<GameObject*>& remove) { //지울객체를 실제로 지우기
 	for (auto it = remove.begin(); it != remove.end(); ++it) {
-		origin.remove(*it); // 첫 번째 리스트에서 두 번째 리스트의 요소 제거
+		origin.remove(*it); 
 	}
 }
 
-void World::DeleteGameObject(GameObject* gameObject)//지워질 객체를 그냥 미리 담아놓고 업데이트 돌기전에 처리하자
+void World::DeleteGameObject(GameObject* gameObject) //지울 객체를 담아두기
 {
 	m_Remove.push_back(gameObject);
 }

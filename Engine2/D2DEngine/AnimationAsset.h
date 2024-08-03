@@ -60,19 +60,19 @@ struct ANIMATION_INFO // 하나의 동작에 대한 정보
 class AnimationAsset : public ReferenceCounter
 {	
 public:
-	AnimationAsset() { m_Animations.resize(10); };
+	AnimationAsset() { animations.resize(10); };
 	virtual ~AnimationAsset() {};
 public:
-	std::vector<ANIMATION_INFO> m_Animations;  // 애니메이션의 모음
+	std::vector<ANIMATION_INFO> animations;  // 애니메이션의 모음
 
 	ANIMATION_INFO* GetAnimationInfo(int index) 
 	{ 
-	    assert(index >= 0 && index < m_Animations.size());
-		return &m_Animations[index]; 
+	    assert(index >= 0 && index < animations.size());
+		return &animations[index]; 
 	}
 	ANIMATION_INFO* GetAnimationInfo(std::string AnimationName)
 	{
-		for (auto& iter : m_Animations)
+		for (auto& iter : animations)
 		{
 			if (iter.Name == AnimationName)
 			{

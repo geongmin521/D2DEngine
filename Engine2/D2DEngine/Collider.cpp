@@ -21,8 +21,8 @@ void Collider::ProcessOverlap()
 {
 }
 
-void Collider::ProcessBlock(Collider* pOtherComponent)
+void Collider::ProcessBlock(Collider* otherComponent)
 {
-	notify->OnBlock(pOtherComponent);
+	notify->OnBlock(otherComponent);
 
 }

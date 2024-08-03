@@ -5,16 +5,16 @@
 
 ResourceManager::ResourceManager()
 {
-	ResourceManager::pInstance = this;
+	ResourceManager::Instance = this;
 }
 
 ResourceManager::~ResourceManager() 
 {
 	assert(m_BitmapMap.empty());
-	assert(m_AnimationAssetMap.empty());
+	assert(animationAssetMap.empty());
 }
 
-ResourceManager* ResourceManager::pInstance = nullptr;
+ResourceManager* ResourceManager::Instance = nullptr;
 
 bool ResourceManager::CreateD2DBitmapFromFile(std::wstring strFilePath, ID2D1Bitmap** bitmap)
 {
@@ -49,9 +49,9 @@ void ResourceManager::ReleaseD2DBitmap(std::wstring strFilePath)
 
 bool ResourceManager::CreateAnimationAsset(std::wstring strFilePath, AnimationAsset** asset)
 {
-	if (m_AnimationAssetMap.find(strFilePath) != m_AnimationAssetMap.end())
+	if (animationAssetMap.find(strFilePath) != animationAssetMap.end())
 	{
-		*asset = m_AnimationAssetMap[strFilePath];
+		*asset = animationAssetMap[strFilePath];
 		(*asset)->AddRef();
 		return true;
 	} 
@@ -67,22 +67,22 @@ bool ResourceManager::CreateAnimationAsset(std::wstring strFilePath, AnimationAs
 		*asset = pTemp;
 	}
 	// 생성한 애니메이션 에셋을 맵에 저장한다.
-	m_AnimationAssetMap[strFilePath] = *asset;
+	animationAssetMap[strFilePath] = *asset;
 	return true;
 }
 
-void ResourceManager::ReleaseAnimationAsset(std::wstring strFilePath)
+void ResourceManager::ReleaseAnimationAsset(std::wstring strFilePath) 
 {
 	// 맵에 해당 키가 존재하면 애니메이션 에셋을 해제한다.
-	std::map<std::wstring, AnimationAsset*>::iterator iter = m_AnimationAssetMap.find(strFilePath);
-	assert(iter != m_AnimationAssetMap.end()); // 컨테이너에 없으면 Create/Release 짝이 잘못됐다.
+	std::map<std::wstring, AnimationAsset*>::iterator iter = animationAssetMap.find(strFilePath);
+	assert(iter != animationAssetMap.end()); // 컨테이너에 없으면 Create/Release 짝이 잘못됐다.
 
-	if (iter != m_AnimationAssetMap.end())
+	if (iter != animationAssetMap.end())
 	{
-		AnimationAsset* asset = m_AnimationAssetMap[strFilePath];
+		AnimationAsset* asset = animationAssetMap[strFilePath];
 		if (asset->Release() == 0)
 		{
-			m_AnimationAssetMap.erase(iter);
+			animationAssetMap.erase(iter);
 		}
 	}
 }
@@ -90,11 +90,10 @@ void ResourceManager::ReleaseAnimationAsset(std::wstring strFilePath)
 HRESULT ResourceManager::NewBitmapFromFile(const WCHAR * szFilePath, ID2D1Bitmap * *ppID2D1Bitmap)
 {
 	HRESULT hr;
-	// Create a decoder
 	IWICBitmapDecoder* pDecoder = NULL;
 	IWICFormatConverter* pConverter = NULL;
 
-	hr = D2DRenderer::GetInstance()->m_pWICFactory->CreateDecoderFromFilename(
+	hr = D2DRenderer::GetInstance()->WICFactory->CreateDecoderFromFilename(
 		szFilePath,                      // Image to be decoded
 		NULL,                            // Do not prefer a particular vendor
 		GENERIC_READ,                    // Desired read access to the file
@@ -112,7 +111,7 @@ HRESULT ResourceManager::NewBitmapFromFile(const WCHAR * szFilePath, ID2D1Bitmap
 	//Step 3: Format convert the frame to 32bppPBGRA
 	if (SUCCEEDED(hr))
 	{
-		hr = D2DRenderer::GetInstance()->m_pWICFactory->CreateFormatConverter(&pConverter);
+		hr = D2DRenderer::GetInstance()->WICFactory->CreateFormatConverter(&pConverter);
 	}
 
 	if (SUCCEEDED(hr))
@@ -129,7 +128,7 @@ HRESULT ResourceManager::NewBitmapFromFile(const WCHAR * szFilePath, ID2D1Bitmap
 
 	if (SUCCEEDED(hr))
 	{
-		hr = D2DRenderer::GetInstance()->m_pRenderTarget->CreateBitmapFromWicBitmap(pConverter, NULL, ppID2D1Bitmap);
+		hr = D2DRenderer::GetInstance()->RenderTarget->CreateBitmapFromWicBitmap(pConverter, NULL, ppID2D1Bitmap);
 	}
 	// 파일을 사용할때마다 다시 만든다.
 	if (pConverter)

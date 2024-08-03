@@ -11,7 +11,7 @@ class WinGameApp
 	HINSTANCE hInst;
 public:
 	World* world;
-	HWND m_hWnd;  
+	HWND hWnd;  
 	WinGameApp();
 	virtual ~WinGameApp();
 	virtual void Initialize(HINSTANCE hInstance, int nShowCmd);

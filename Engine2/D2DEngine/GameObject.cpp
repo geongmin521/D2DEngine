@@ -26,13 +26,12 @@ void GameObject::Update(float deltaTime)
 	if (!isActive)
 		return;
 	for (auto& pComponent : m_OwnedComponents)
-		//컴포넌트에 정렬 번호를 쥐어주고 우선순위큐로 관리하면 컴포넌트들을 정해진 순서대로 호출가능
 	{
 		if(pComponent->getActive())
 			pComponent->Update(deltaTime);
 	}
 	if (m_Transform)
-		m_BoundBox->m_Center = m_Transform->GetWorldLocation();
+		m_BoundBox->Center = m_Transform->GetWorldLocation();
 }
 
 

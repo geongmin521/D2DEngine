@@ -4,42 +4,42 @@
 
 FiniteStateMachine::~FiniteStateMachine()
 {
-	for (auto& state : m_pStates)
+	for (auto& state : states)
 	{
 		delete state.second;
 	}
-	m_pStates.clear();
+	states.clear();
 }
 
 void FiniteStateMachine::Update(float DeltaTime)
 {
-	if (m_pCurrState != m_pNextState) //상태만 바꿔주면 자동으로 알아서 해줌
+	if (currState != nextState) //상태만 바꿔주면 자동으로 알아서 해줌
 	{
-		if (m_pCurrState != nullptr)
+		if (currState != nullptr)
 		{
-			m_pCurrState->ExitState();
+			currState->ExitState();
 		}
-		m_pCurrState = m_pNextState;
-		m_pCurrState->EnterState();
+		currState = nextState;
+		currState->EnterState();
 	}
 	else
 	{
-		m_pSharedTransition->Update(DeltaTime);//공유전이 먼저 돌리기
-		m_pCurrState->Update(DeltaTime);
+		sharedTransition->Update(DeltaTime);//공유전이 먼저 돌리기
+		currState->Update(DeltaTime);
 	}
 }
 
 void FiniteStateMachine::SetNextState(std::string stateName)
 {
-	auto it = m_pStates.find(stateName);
-	if (it != m_pStates.end() && it->second != m_pCurrState) //현재상태와 같지않아야함
+	auto it = states.find(stateName);
+	if (it != states.end() && it->second != currState) //현재상태와 같지않아야함
 	{
-		m_pNextState = it->second;
+		nextState = it->second;
 	}
 }
 
 void FiniteStateMachine::SetSharedTransition(FSMState* share)
 {
-	m_pSharedTransition = share;
+	sharedTransition = share;
 }
 

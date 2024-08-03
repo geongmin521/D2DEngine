@@ -13,12 +13,12 @@ public:
 	Component();
 	virtual ~Component();
 
-	GameObject* m_pOwner;
+	GameObject* owner;
 
 public:
 	void setActive(bool active);
 	bool getActive() { return isActive; }
-	void SetOwner(GameObject* pOwner) { m_pOwner = pOwner; }
+	void SetOwner(GameObject* pOwner) { owner = pOwner; }
 
 	virtual void Update(float deltaTime);
 	virtual void Render(ID2D1RenderTarget* pRenderTarget);

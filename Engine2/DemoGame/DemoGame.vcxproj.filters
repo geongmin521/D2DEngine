@@ -1,98 +1,84 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Tower">
+      <UniqueIdentifier>{6704422f-0b36-4979-922f-dab347b45966}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Enemy">
+      <UniqueIdentifier>{a9302236-d13b-44ac-9f61-b910cec87025}</UniqueIdentifier>
     </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Etc">
+      <UniqueIdentifier>{7903c734-83b2-47aa-b878-80d2a42435af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OtherObject">
+      <UniqueIdentifier>{fde3c242-0469-4bbe-88de-5e2589aba287}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{8a819bfe-dfbc-4e79-a6c4-71e9f8770a2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{5ff006f7-7b5d-4cc1-824d-9b91230a398e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="targetver.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="ArrowTower.h">
+      <Filter>Tower</Filter>
     </ClInclude>
-    <ClInclude Include="DemoGame.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="TowerBase.h">
+      <Filter>Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Vampire.h">
+      <Filter>Enemy</Filter>
     </ClInclude>
     <ClInclude Include="DemoGameApp.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Etc</Filter>
     </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="DemoGame.h">
+      <Filter>Etc</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="targetver.h">
+      <Filter>Etc</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="MapEditer.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Camera.h">
+      <Filter>OtherObject</Filter>
     </ClInclude>
-    <ClInclude Include="Missile.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerFSM.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MissileFSM.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MissileSpawner.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SpiderWeb.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="TowerFsm.h">
+      <Filter>Tower</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DemoGame.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="ArrowTower.cpp">
+      <Filter>Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="TowerBase.cpp">
+      <Filter>Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBase.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Vampire.cpp">
+      <Filter>Enemy</Filter>
     </ClCompile>
     <ClCompile Include="DemoGameApp.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Etc</Filter>
     </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="DemoGame.cpp">
+      <Filter>Etc</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="MapEditer.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="Camera.cpp">
+      <Filter>OtherObject</Filter>
     </ClCompile>
-    <ClCompile Include="Missile.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="TowerFSM.cpp">
+      <Filter>Tower</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerFSM.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MissileFSM.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MissileSpawner.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SpiderWeb.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="small.ico">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="DemoGame.ico">
-      <Filter>리소스 파일</Filter>
-    </Image>
   </ItemGroup>
 </Project>

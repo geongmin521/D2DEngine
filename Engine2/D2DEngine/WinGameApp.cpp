@@ -8,7 +8,7 @@
 #include "World.h"
 
 #ifdef _DEBUG
-#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")//디버거가 남겨져있어서그런듯? 
 #endif
 
 WinGameApp::WinGameApp()
@@ -31,7 +31,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_DESTROY:
 		PostQuitMessage(0);
-		break;
+		return 0;
 	case WM_KEYDOWN:
 		inputSystem->UpdateKey();
 		break;
@@ -48,7 +48,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		timeManager->SetTimeScale(0);
 		break;
 	case WM_EXITSIZEMOVE:
-		timeManager->InitTime(); //호출이 한번씩은 잘들어오는데 그래도 탈출하는거보니 쌓여있는 시간때문에 그런거같기도?
+		timeManager->InitTime(); 
 		timeManager->SetTimeScale(1);
 		break;
 
@@ -79,7 +79,7 @@ void WinGameApp::Initialize(HINSTANCE hInstance, int nShowCmd)
 	RegisterClassExW(&wcex);
 	InitInstance(hInstance, nShowCmd);
 
-	D2DRenderer::GetInstance(m_hWnd); //이거 구조 너무 맘에 안드니까 수정바람
+	D2DRenderer::GetInstance(hWnd); //이거 구조 너무 맘에 안드니까 수정바람
 	world = new World;
 }
 
@@ -100,7 +100,7 @@ void WinGameApp::Run()
 		{
 			timeManager->UpdateTime();
 			inputSystem->UpdateKey();
-			inputSystem->UpdateMouse(m_hWnd);
+			inputSystem->UpdateMouse(hWnd);
 
 			Update(timeManager->GetDeltaTime());
 			Render(D2DRenderer::GetInstance()->GetRenderTarget());
@@ -133,20 +133,20 @@ bool WinGameApp::InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
 	hInst = hInstance; 
 
-	RECT rt = { 0, 0, 1920 , 1080 }; //만들 크기의 윈도우 창 크기를 구한다.
+	RECT rt = { 0, 0, WinSizeX , WinSizeY }; //원도우 창크기
 
 	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, 0);
 
-	m_hWnd = CreateWindowW(L"Test", L"test", WS_OVERLAPPEDWINDOW,
+	hWnd = CreateWindowW(L"Test", L"test", WS_OVERLAPPEDWINDOW,
 		50, 50, rt.right - rt.left, rt.bottom - rt.top, nullptr, nullptr, hInstance, nullptr);
 
-	if (!m_hWnd)
+	if (!hWnd)
 	{
 		return FALSE;
 	}
 
-	ShowWindow(m_hWnd, nCmdShow);
-	UpdateWindow(m_hWnd);
+	ShowWindow(hWnd, nCmdShow);
+	UpdateWindow(hWnd);
 
 	return TRUE;
 }

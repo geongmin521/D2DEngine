@@ -9,7 +9,7 @@ class RigidBody :
 {
 private:
 	bool isGravity;
-	float GravityScale;// 중력은 바꾸고 싶을수도 있는데..
+	float gravityScale;// 중력은 바꾸고 싶을수도 있는데..
 public:
 
 	RigidBody();
@@ -19,8 +19,8 @@ public:
 	virtual void Enable() override;
 	virtual void Disable() override;
 
-	float getGravity() { return GravityScale; }
-	void resetGravity() {  GravityScale = 0; }
+	float getGravity() { return gravityScale; }
+	void resetGravity() {  gravityScale = 0; }
 
 };
 

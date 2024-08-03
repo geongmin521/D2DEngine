@@ -7,7 +7,7 @@ Camera::Camera() //카메라를 생성할려면 타겟을 정해야한다?
 {
 	CameraScene* scene = new CameraScene(); //타겟을 정해주는걸로 정의할까?
 	AddComponent(scene);
-	m_Transform->m_RelativeLocation = { WinHalfSizeX, WinHalfSizeY };
+	m_Transform->relativeLocation = { WinHalfSizeX, WinHalfSizeY };
 }
 
 Camera::~Camera()

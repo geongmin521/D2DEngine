@@ -10,9 +10,9 @@ public:
 	~BoxCollider();
 	AABB* aabb;
 
-	virtual bool IsCollide(Collider* pOtherComponent) override;
+	virtual bool IsCollide(Collider* otherComponent) override;
 	virtual bool IsCollide(AABB* aabb) override;
-	virtual	void ProcessBlock(Collider* pOtherComponent) override;
+	virtual	void ProcessBlock(Collider* otherComponent) override;
 	
 };
 

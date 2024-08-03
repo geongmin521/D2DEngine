@@ -16,17 +16,17 @@ RigidBody::~RigidBody()
 void RigidBody::Update(float deltaTime)
 {
 	if (isGravity)
-		GravityScale += 0.098; //중력가속도로 계속더해짐 델타타임은 무브먼트에서 더해질거임
+		gravityScale += 0.098; //중력가속도로 계속더해짐 델타타임은 무브먼트에서 더해질거임
 }
 
 void RigidBody::Enable()
 {
 	isGravity = true;
-	GravityScale = 0;
+	gravityScale = 0;
 }
 
 void RigidBody::Disable()
 {
-	GravityScale = 0;
+	gravityScale = 0;
 }
 

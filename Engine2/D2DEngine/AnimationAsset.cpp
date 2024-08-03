@@ -41,28 +41,28 @@ bool AnimationAsset::LoadAnimationFromCSV(int index, const wchar_t* fileName)
 			std::wstringstream wss(line);
 			wss >> FrameCount;
 		}
-		//m_Animations[index].Frames.reserve(FrameCount);
+		//animations[index].Frames.reserve(FrameCount);
 		for (int j = 0; j < FrameCount; j++)
 		{
-			m_Animations[i].Frames.push_back(FRAME_INFO());
+			animations[i].Frames.push_back(FRAME_INFO());
 			getline(file, line);			// 한줄 읽기
 			std::wstringstream wss(line);   // 한줄을 읽어서 wstringstream에 저장
 			std::wstring token;
 			{
 				getline(wss, token, L',');	// wss의 내용을 ,를 기준으로 문자열을 분리
-				m_Animations[i].Frames[j].Source.left = (float)_wtoi(token.c_str());
+				animations[i].Frames[j].Source.left = (float)_wtoi(token.c_str());
 				getline(wss, token, L',');
-				m_Animations[i].Frames[j].Source.top = (float)_wtoi(token.c_str());
+				animations[i].Frames[j].Source.top = (float)_wtoi(token.c_str());
 				getline(wss, token, L',');
-				m_Animations[i].Frames[j].Source.right = (float)_wtoi(token.c_str());
+				animations[i].Frames[j].Source.right = (float)_wtoi(token.c_str());
 				getline(wss, token, L',');
-				m_Animations[i].Frames[j].Source.bottom = (float)_wtoi(token.c_str());
+				animations[i].Frames[j].Source.bottom = (float)_wtoi(token.c_str());
 				getline(wss, token, L',');
-				m_Animations[i].Frames[j].Center.x = (float)_wtoi(token.c_str());
+				animations[i].Frames[j].Center.x = (float)_wtoi(token.c_str());
 				getline(wss, token, L',');
-				m_Animations[i].Frames[j].Center.y = (float)_wtoi(token.c_str());
+				animations[i].Frames[j].Center.y = (float)_wtoi(token.c_str());
 				getline(wss, token, L',');
-				m_Animations[i].Frames[j].Duration = std::wcstod(token.c_str(), nullptr);
+				animations[i].Frames[j].Duration = std::wcstod(token.c_str(), nullptr);
 			}
 		}
 	}		
