@@ -77,7 +77,7 @@ void Animation::Render(ID2D1RenderTarget* pRenderTarget)
 		return;
 	__super::Render(pRenderTarget);
 	
-	pRenderTarget->DrawBitmap(Bitmap, DstRect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, srcRect);
+	pRenderTarget->DrawBitmap(bitmap, DstRect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, srcRect);
 	pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 

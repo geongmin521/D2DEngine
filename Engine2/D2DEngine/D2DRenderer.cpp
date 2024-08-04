@@ -3,6 +3,7 @@
 #include "Helper.h"
 #include "ResourceManager.h"
 #include "AABB.h"
+#include "Circle.h"
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "DXGI.lib")
 #pragma comment(lib, "Dwrite.lib")
@@ -80,7 +81,7 @@ void D2DRenderer::Initialize(HWND hWnd)
 
 	if (SUCCEEDED(hr))
 	{
-		hr = RenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Black), &blackBrush);
+		hr = RenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Green), &greenBrush);
 	}
 
 	if (SUCCEEDED(hr))
@@ -132,7 +133,7 @@ void D2DRenderer::Uninitialize()
 	SAFE_RELEASE(DWriteTextFormat);
 	SAFE_RELEASE(DXGIFactory);
 	SAFE_RELEASE(DXGIAdapter);
-	SAFE_RELEASE(blackBrush);
+	SAFE_RELEASE(greenBrush);
 	CoUninitialize();
 }
 
@@ -159,17 +160,30 @@ void D2DRenderer::DrawTextFunc(std::wstring text,int x,int y)
 void D2DRenderer::DrawBox(int left, int top, int right, int bottom)
 {
 	RenderTarget->DrawRectangle(
-		D2D1::RectF(left, top, right, bottom), blackBrush);
+		D2D1::RectF(left, top, right, bottom), greenBrush);
 }
 
 void D2DRenderer::DrawLine(MathHelper::Vector2F start, MathHelper::Vector2F end)
 {
 	RenderTarget->DrawLine(
-		{ start.x,start.y }, { end.x,end.y}, blackBrush);
+		{ start.x,start.y }, { end.x,end.y}, greenBrush);
+
+	//RenderTarget.drawcircle
 }
 
-void D2DRenderer::DrawAABB(AABB aabb)
+void D2DRenderer::DrawCircle(Circle& circle)
 {
+	D2D1_ELLIPSE ellipse = D2D1::Ellipse(
+		D2D1::Point2F(circle.Center.x, circle.Center.y),  // 원의 중심
+		circle.radius, circle.radius  // 반지름
+	);
+
+	RenderTarget->DrawEllipse(&ellipse, greenBrush); //브러쉬가 또 몇개필요할려나.. 초록색? 중심도 그렸으면 좋겠어.. 
+}
+
+void D2DRenderer::DrawAABB(AABB& aabb)
+{
+	RenderTarget->SetTransform(D2D1::Matrix3x2F::Identity()); //음 좌표계가 이상한거였군.. 어차피 이것들을 그릴때는 월드좌표계를 사용할테니.. 여기에 아이덴티티를 해주는게 맞겠네..
 	RenderTarget->DrawRectangle(
-		D2D1::RectF(aabb.GetMinX(), aabb.GetMinY(), aabb.GetMaxX(), aabb.GetMaxY()), blackBrush);
+		D2D1::RectF(aabb.GetMinX(), aabb.GetMinY(), aabb.GetMaxX(), aabb.GetMaxY()), greenBrush);
 }

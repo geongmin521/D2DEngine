@@ -36,6 +36,12 @@
     <Filter Include="소스 파일\Etc">
       <UniqueIdentifier>{89792a24-1fbe-4ce5-84ff-217ca94dd853}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Data">
+      <UniqueIdentifier>{7ab90d68-0d40-44a4-9eb3-0aed11a98a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Factory">
+      <UniqueIdentifier>{6b5cf0ad-05b8-4d6e-b511-6a6e94678e6d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Movement.h">
@@ -125,6 +131,21 @@
     <ClInclude Include="Component.h">
       <Filter>소스 파일\Etc</Filter>
     </ClInclude>
+    <ClInclude Include="Circle.h">
+      <Filter>소스 파일\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleCollider.h">
+      <Filter>소스 파일\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>소스 파일\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="IClickAble.h">
+      <Filter>소스 파일\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Factory.h">
+      <Filter>소스 파일\Factory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Transform.cpp">
@@ -204,6 +225,18 @@
     </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>소스 파일\Etc</Filter>
+    </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <Filter>소스 파일\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleCollider.cpp">
+      <Filter>소스 파일\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>소스 파일\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Factory.cpp">
+      <Filter>소스 파일\Factory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

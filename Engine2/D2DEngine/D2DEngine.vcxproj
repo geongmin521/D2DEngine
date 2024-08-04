@@ -113,6 +113,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -130,6 +131,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -146,15 +148,20 @@
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CameraScene.h" />
+    <ClInclude Include="Circle.h" />
+    <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="D2DRenderer.h" />
+    <ClInclude Include="DataManager.h" />
+    <ClInclude Include="Factory.h" />
     <ClInclude Include="FiniteStateMachine.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="FSMState.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Helper.h" />
+    <ClInclude Include="IClickAble.h" />
     <ClInclude Include="IColliderNotify.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="MathHelper.h" />
@@ -177,11 +184,15 @@
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CameraScene.cpp" />
+    <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="CircleCollider.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="D2DEngine.cpp" />
     <ClCompile Include="D2DRenderer.cpp" />
+    <ClCompile Include="DataManager.cpp" />
+    <ClCompile Include="Factory.cpp" />
     <ClCompile Include="FiniteStateMachine.cpp" />
     <ClCompile Include="FSMState.cpp" />
     <ClCompile Include="GameObject.cpp" />

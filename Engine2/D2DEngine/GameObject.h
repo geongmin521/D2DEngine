@@ -10,25 +10,26 @@ public:
 	GameObject();
 	virtual ~GameObject();
 	bool isActive;
-	std::vector<Component*> m_OwnedComponents;	// 소유한 컴포넌트들
-	Transform* m_Transform = nullptr;				
+	std::vector<Component*> ownedComponents;	// 소유한 컴포넌트들
+	Transform* transform = nullptr;				
 	World* owner = nullptr;					// 이 게임 오브젝트가 속한 월드
-	AABB* m_BoundBox;							// 컬링을 위한 박스
+	AABB* boundBox;							// 컬링을 위한 박스
 	int renderOrder;							//이거는 누가한테 줘야할까.. 각 클래스가 들고있을까?
 public:
 	virtual void Update(float deltaTime);
 	virtual void Render(ID2D1HwndRenderTarget* pRenderTarget);
-	const AABB& GetBoundBox() const { return *m_BoundBox; }
+	const AABB& GetBoundBox() const { return *boundBox; }
 	void SetBoundBox(int x, int y, int weight, int height);
 	void AddComponent(Component* pComponent);
 	void SetOwner(World* pOwner) { owner = pOwner; } 
+	
 	D2D1_VECTOR_2F GetWorldLocation();
 	template<typename T>
 	T* GetComponent()
 	{
-		for (int i = 0; i < m_OwnedComponents.size(); i++)
+		for (int i = 0; i < ownedComponents.size(); i++)
 		{
-			if (T* component = dynamic_cast<T*>(m_OwnedComponents[i]))
+			if (T* component = dynamic_cast<T*>(ownedComponents[i]))
 			{
 				return component; // 캐스팅 성공 시 해당 컴포넌트를 반환
 			}

@@ -6,32 +6,32 @@
 
 GameObject::GameObject()
 {
-	m_Transform = new Transform(); //모든 게임오브젝트는 트랜스폼을 들고있다.
-	AddComponent(m_Transform);
-	m_BoundBox = new AABB();
+	transform = new Transform(); //모든 게임오브젝트는 트랜스폼을 들고있다.
+	AddComponent(transform);
+	boundBox = new AABB();
 	isActive = true;
 }
 
 GameObject::~GameObject() 
 {
-	for (auto& pComponent : m_OwnedComponents)
+	for (auto& pComponent : ownedComponents)
 	{
 		delete pComponent;
 	}
-	m_OwnedComponents.clear();
+	ownedComponents.clear();
 }
 
 void GameObject::Update(float deltaTime) 
 {
 	if (!isActive)
 		return;
-	for (auto& pComponent : m_OwnedComponents)
+	for (auto& pComponent : ownedComponents)
 	{
 		if(pComponent->getActive())
 			pComponent->Update(deltaTime);
 	}
-	if (m_Transform)
-		m_BoundBox->Center = m_Transform->GetWorldLocation();
+	//if (transform)
+	//	boundBox->Center = transform->GetWorldLocation(); //이부분은 각 콜라이더로 이전한다 //카메라로 컬링을 할일이 있을까? 우리게임에서? 
 }
 
 
@@ -39,7 +39,7 @@ void GameObject::Render(ID2D1HwndRenderTarget* pRenderTarget)
 {
 	if (!isActive)
 		return;
-	for (auto& pComponent : m_OwnedComponents) 
+	for (auto& pComponent : ownedComponents) 
 	{	
 		pComponent->Render(pRenderTarget);
 	}
@@ -48,23 +48,23 @@ void GameObject::Render(ID2D1HwndRenderTarget* pRenderTarget)
 
 void GameObject::SetBoundBox(int x, int y,int weight, int height)
 {  
-	if (m_BoundBox == nullptr)
-		m_BoundBox = new AABB();
-	m_BoundBox->SetExtent(weight / 2, height / 2);
-	m_BoundBox->SetCenter(x,y);
+	if (boundBox == nullptr)
+		boundBox = new AABB();
+	boundBox->SetExtent(weight / 2, height / 2);
+	boundBox->SetCenter(x,y);
 }
 
 void GameObject::AddComponent(Component* pComponent)
 {
 	pComponent->SetOwner(this);
-	m_OwnedComponents.push_back(pComponent);
+	ownedComponents.push_back(pComponent);
 }
 
 D2D1_VECTOR_2F GameObject::GetWorldLocation()
 { 
 	D2D1_VECTOR_2F temp{ 0,0 };
-	if (m_Transform)
-		temp = m_Transform->GetWorldLocation();
+	if (transform)
+		temp = transform->GetWorldLocation();
 
 	return temp;
 }

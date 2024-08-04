@@ -1,21 +1,7 @@
 #pragma once
 #include "MathHelper.h"
-#include "Collider.h" //이러면 안꼬일까? 무섭네.. 헤더파일 인클루드
-/*
-	AABB (Axis-Aligned Bounding Box) 축 정렬된 경계 상자
+#include "Collider.h" 
 
-	  +y
-	  ^
-	  |         +----------------------max
-	  |         |                      |
-	  |         |		 center        |
-	  |	        |          +---------- |
-	  |         |          |  extend.x |
-	  |         |  extend.y|           |
-	  |         min--------------------+
-	--+------------------------------------> +x
-   0,0
-*/
 class AABB
 {
 public:
@@ -23,10 +9,6 @@ public:
 public:
 	MathHelper::Vector2F Center; // 중앙
 	MathHelper::Vector2F Extent; // x,y축 확장값	
-	// minX = Center.x - Extent.x
-	// maxX = Center.x + Extent.x
-	// minY = Center.y - Extent.y
-	// maxY = Center.y + Extent.y
 
 	AABB(const AABB&) = default;
 	AABB& operator=(const AABB&) = default;

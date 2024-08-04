@@ -18,10 +18,10 @@ Renderer::~Renderer()
 		Bitmap = nullptr;
 	}
 	*/
-	if (Bitmap)
+	if (bitmap)
 	{
 		ResourceManager::Instance->ReleaseD2DBitmap(strBitmapFilePath);
-		Bitmap = nullptr;
+		bitmap = nullptr;
 	}
 }
 
@@ -41,10 +41,10 @@ void Renderer::Update(float deltaTime)
 
 void Renderer::Render(ID2D1RenderTarget* pRenderTarget) //어디그릴지에 대한 계산은 여기서 통일하기
 {
-	float CenterX = -(DstRect.right - DstRect.left) / 2 * owner->m_Transform->relativeScale.x;
-	float CenterY = -(DstRect.bottom - DstRect.top) / 2 * owner->m_Transform->relativeScale.y;
+	float CenterX = -(DstRect.right - DstRect.left) / 2 * owner->transform->relativeScale.x;
+	float CenterY = -(DstRect.bottom - DstRect.top) / 2 * owner->transform->relativeScale.y; //그리는 위치만 이게 되는게 맞나? 
 
-	D2D1_MATRIX_3X2_F Transform = imageTransform * owner->m_Transform->worldTransform 
+	D2D1_MATRIX_3X2_F Transform = imageTransform * owner->transform->worldTransform 
 		* D2DRenderer::cameraTransform * D2D1::Matrix3x2F::Translation(CenterX, CenterY);
 
 	pRenderTarget->SetTransform(Transform);
@@ -52,6 +52,6 @@ void Renderer::Render(ID2D1RenderTarget* pRenderTarget) //어디그릴지에 대한 계산
 
 void Renderer::LoadD2DBitmap(const std::wstring strFilePath)
 {
-	ResourceManager::Instance->CreateD2DBitmapFromFile(strFilePath, &Bitmap);
+	ResourceManager::Instance->CreateD2DBitmapFromFile(strFilePath, &bitmap);
 	strBitmapFilePath = strFilePath;
 }

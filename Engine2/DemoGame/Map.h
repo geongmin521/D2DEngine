@@ -3,15 +3,12 @@
 #include "../D2DEngine/IColliderNotify.h"
 
 class Collider;
-class Map : public GameObject , public IColliderNotify
+class Map : public GameObject
 {
 public:
 	Map();
 	~Map(); //¿œ¥‹¿∫ 
 	bool LoadCollider();
-	virtual void OnBlock(Collider* pOwnedComponent) override;
-	virtual void OnBeginOverlap(Collider* pOwnedComponent) override;
-	virtual void OnEndOverlap(Collider* pOwnedComponent) override;
 	std::vector<Collider*> boxCols;
 };
 

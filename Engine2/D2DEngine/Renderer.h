@@ -9,7 +9,7 @@ public:
 	float CenterX;
 	float CenterY;
 	std::wstring strBitmapFilePath;
-	ID2D1Bitmap* Bitmap = nullptr;
+	ID2D1Bitmap* bitmap = nullptr;
 	D2D1_RECT_F DstRect;		// RenderTargetÀÇ Destination ¿µ¿ª		
 
 	Renderer(const std::wstring strFilePath);

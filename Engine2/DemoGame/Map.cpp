@@ -10,10 +10,10 @@ Map::Map()
 {
 	renderOrder = -100;
 	AddComponent(new Bitmap(L"..\\Data\\map.png"));
-	D2D1_SIZE_F size = GetComponent<Bitmap>()->Bitmap->GetSize();
-	SetBoundBox(0, 0, size.width, size.height);
-	m_Transform->relativeScale = { 3,2.4 };
-	m_Transform->relativeLocation = { WinHalfSizeX, WinHalfSizeY };
+	//D2D1_SIZE_F size = GetComponent<Bitmap>()->Bitmap->GetSize();
+	//SetBoundBox(0, 0, size.width, size.height);
+	transform->relativeScale = { 3,2.4 };
+	transform->relativeLocation = { WinHalfSizeX, WinHalfSizeY };
 	LoadCollider();
 }
 
@@ -54,19 +54,9 @@ bool Map::LoadCollider() //읽기부분이 좀 겹치는거같은데 어떻게 클래스로 빼보자
 			getline(wss, token, L',');
 			col->Extent.y = (float)_wtoi(token.c_str());
 		}
-		boxCols.push_back(new BoxCollider(col, CollisionType::Block,this,CollisionLayer::Platform)); 
+		//boxCols.push_back(new BoxCollider(col, CollisionType::Block,this,CollisionLayer::Platform)); 
 	}
 	return true;
 }
 
-void Map::OnBlock(Collider* pOwnedComponent)
-{
-}
 
-void Map::OnBeginOverlap(Collider* pOwnedComponent)
-{
-}
-
-void Map::OnEndOverlap(Collider* pOwnedComponent)
-{
-}

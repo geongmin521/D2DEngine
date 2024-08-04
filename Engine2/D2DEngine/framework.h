@@ -21,6 +21,9 @@
 #include <set>
 #include <tuple>
 #include <random>
-
+#include <functional>
 #include "MathHelper.h"
+#include <type_traits>
+#include <cassert>
+#include <variant>
 //#include <dxgi.h>
