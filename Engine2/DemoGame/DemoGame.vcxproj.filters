@@ -19,6 +19,9 @@
     <Filter Include="UI">
       <UniqueIdentifier>{5ff006f7-7b5d-4cc1-824d-9b91230a398e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameStart">
+      <UniqueIdentifier>{4074c382-4d29-4aa0-a19b-ceaa86eab241}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArrowTower.h">
@@ -32,9 +35,6 @@
     </ClInclude>
     <ClInclude Include="Vampire.h">
       <Filter>Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="DemoGameApp.h">
-      <Filter>Etc</Filter>
     </ClInclude>
     <ClInclude Include="DemoGame.h">
       <Filter>Etc</Filter>
@@ -63,6 +63,9 @@
     <ClInclude Include="EnemySpawner.h">
       <Filter>Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="DemoGameApp.h">
+      <Filter>GameStart</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ArrowTower.cpp">
@@ -76,9 +79,6 @@
     </ClCompile>
     <ClCompile Include="Vampire.cpp">
       <Filter>Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="DemoGameApp.cpp">
-      <Filter>Etc</Filter>
     </ClCompile>
     <ClCompile Include="DemoGame.cpp">
       <Filter>Etc</Filter>
@@ -103,6 +103,9 @@
     </ClCompile>
     <ClCompile Include="EnemySpawner.cpp">
       <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoGameApp.cpp">
+      <Filter>GameStart</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

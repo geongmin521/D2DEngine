@@ -8,12 +8,10 @@
 #include "Camera.h"
 #include "ArrowTower.h"
 
-
 void DemoGameApp::Initialize(HINSTANCE hInstance, int nShowCmd)
 {
 	__super::Initialize(hInstance, nShowCmd);	 // 윈도우 생성 , Direct2D 초기화
 	world->CreateGameObject<ArrowTower>(); 
-
 } 
 
 void DemoGameApp::Run()

@@ -42,6 +42,9 @@
     <Filter Include="소스 파일\Factory">
       <UniqueIdentifier>{6b5cf0ad-05b8-4d6e-b511-6a6e94678e6d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Music">
+      <UniqueIdentifier>{3f921605-fe71-40eb-b644-4b1925682ec2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Movement.h">
@@ -146,6 +149,9 @@
     <ClInclude Include="Factory.h">
       <Filter>소스 파일\Factory</Filter>
     </ClInclude>
+    <ClInclude Include="Music.h">
+      <Filter>소스 파일\Music</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Transform.cpp">
@@ -237,6 +243,9 @@
     </ClCompile>
     <ClCompile Include="Factory.cpp">
       <Filter>소스 파일\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Music.cpp">
+      <Filter>소스 파일\Music</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

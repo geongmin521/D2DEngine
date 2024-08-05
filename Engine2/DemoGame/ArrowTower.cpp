@@ -4,6 +4,7 @@
 #include "../D2DEngine/Transform.h"
 #include "../D2DEngine/D2DRenderer.h"
 #include "../D2DEngine/AABB.h"
+#include "../D2DEngine/Music.h"
 #include "ArrowTower.h"
 
 ArrowTower::ArrowTower()
@@ -28,7 +29,7 @@ ArrowTower::~ArrowTower()
 void ArrowTower::Update(float deltaTime)
 {
 	__super::Update(deltaTime);
-
+	Music::soundManager->GetInstance()->PlayMusic();
 	//테스트용으로 회전걸어놓고 중앙을 기준으로 회전하도록만들기
 	transform->AddRelativeRotation(1);
 }
