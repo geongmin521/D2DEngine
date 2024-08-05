@@ -20,6 +20,10 @@ void Transform::Update(float deltaTime) //나는 모든 오브젝트의 중심이.. 이미지의
 		//그걸 확인할 오브젝트까지 띄워보자 제일 쉬운건 성.. 
 		//중심좌표를 띄울수있도록해봅시다. 
 		//일단 UI 부터 띄워볼까? 
+		//아 회전된 오브젝트는 그냥 중심에 돌고있었지?
+
+		//근데 궁금한게.. 회전은 분명 좌표가 왜이렇게 되지?? 이거는 물어보자.. 
+		//월드좌표의 중심이란게.. 
 		D2D1::Matrix3x2F::Translation(relativeLocation.x, relativeLocation.y);//역행렬에서.. 
 	if (parentScene != nullptr)
 		worldTransform = relativeTransform * parentScene->worldTransform;
