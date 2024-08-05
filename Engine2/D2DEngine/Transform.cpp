@@ -15,7 +15,7 @@ void Transform::Update(float deltaTime) //나는 모든 오브젝트의 중심이.. 이미지의
 {
 	relativeTransform = D2D1::Matrix3x2F::Scale(D2D1::SizeF(relativeScale.x, relativeScale.y)) *
 		D2D1::Matrix3x2F::Rotation(relativeRotation, imageCenter) * //이미지의 중심을 알아야함.. 
-
+		//이게 먼저.. 
 		//그러니까 내가 원하는거는 하나의 클라이언트에서 개발할때는하나의 좌표계로 통일하고싶은데.. 그게 이미지의 중심이고 그럴려면.. 여기 트랜스폼에서 처리해야하는게 아닌가 싶은거지.. 
 		//그걸 확인할 오브젝트까지 띄워보자 제일 쉬운건 성.. 
 		//중심좌표를 띄울수있도록해봅시다. 
